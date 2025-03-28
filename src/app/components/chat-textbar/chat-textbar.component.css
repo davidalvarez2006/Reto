@@ -1,3 +1,15 @@
 :host {
   display: block;
 }
+
+
+
+#boton{
+  width: 4em;
+  height: 2em;
+  background-image: url('C:/Users/alvar/Desktop/Reto/public/boton.png');
+  background-repeat: no-repeat;
+  background-size: contain;
+
+
+}
