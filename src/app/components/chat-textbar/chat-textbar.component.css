@@ -2,13 +2,11 @@
   display: block;
 }
 
-
-
 #boton{
   width: 4em;
   height: 2em;
-  background-image: url('public/boton.png');
-    background-repeat: no-repeat;
+  background-image: url('/assets/images/boton.png');
+  background-repeat: no-repeat;
   background-size: contain;
 }
 
