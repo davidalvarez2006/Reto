@@ -1,3 +1,28 @@
 :host {
   display: block;
 }
+/* Contenedor con display flex */
+.flex-container {
+  display: flex;
+  flex-direction: column; /* Los elementos estarán en columna */
+}
+
+/* Mensaje alineado a la izquierda */
+.message-left {
+  align-self: flex-start; /* Alinea al principio (izquierda) */
+  background-color: #e5e5ea;
+  color: black;
+  padding: 10px;
+  border-radius: 8px;
+  margin: 5px 0;
+}
+
+/* Mensaje alineado a la derecha */
+.message-right {
+  align-self: flex-end; /* Alinea al final (derecha) */
+  background-color: #0078ff;
+  color: white;
+  padding: 10px;
+  border-radius: 8px;
+  margin: 5px 0;
+}
