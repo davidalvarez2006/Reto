@@ -3,7 +3,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 @Component({
   selector: 'app-chat-historial',
   imports: [],
-  template: `<p>chat-historial works!</p>`,
+  templateUrl: './chat-historial.component.html',
   styleUrl: './chat-historial.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
