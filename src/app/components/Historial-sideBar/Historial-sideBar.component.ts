@@ -7,4 +7,6 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   styleUrl: './Historial-sideBar.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class HistorialSideBarComponent { }
+export class HistorialSideBarComponent {
+
+}
