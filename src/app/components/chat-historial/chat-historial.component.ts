@@ -1,10 +1,13 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
+import { GifService } from '../../services/chat-service.service';// Asegúrate de que la ruta sea la correcta
 
 @Component({
   selector: 'app-chat-historial',
-  imports: [],
   templateUrl: './chat-historial.component.html',
-  styleUrl: './chat-historial.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  styleUrls: ['./chat-historial.component.css']
 })
-export class ChatHistorialComponent { }
+export class ChatHistorialComponent {
+
+  constructor(private gifService: GifService) {}
+
+}
