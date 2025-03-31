@@ -9,6 +9,13 @@
   top: 0;
 }
 
+h2{
+  font-size: 40px;
+  font-style: italic;
+  padding-top: 2%;
+  text-decoration: underline;
+}
+
 /* Mensaje alineado a la izquierda */
 .message-left {
   align-self: flex-start; /* Alinea al principio (izquierda) */
