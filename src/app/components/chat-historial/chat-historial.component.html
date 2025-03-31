@@ -1,14 +1,9 @@
-<div class="chat-container">
-  <div class="messages">
-    <ng-container *ngFor="let msg of messages; trackBy: trackByIndex">
-      <div class="message" [ngClass]="{'user': msg.sender === 'user', 'bot': msg.sender !== 'user'}">
-        <span>{{ msg.text }}</span>
-      </div>
-    </ng-container>
+<div>
+  <h2>Chat</h2>
+  <p>Bienvenido SendoaBot</p>
+  <div class="flex-container">
+    <p class="message-right">Hola, esto es un mensaje de prueba.</p>
+    <p class="message-left">Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium recusandae earum culpa aspernatur, at alias dolorem quos, mollitia ullam sapiente, aliquid officia nostrum. Consectetur ducimus corrupti, omnis distinctio odio architecto?Lorem ipsum dolor sit amet consectetur adipisicing elit. Sed fugit vero vitae perspiciatis! Perferendis eligendi pariatur aliquam, dolores et quas! Blanditiis enim quam inventore asperiores sed vero dolorum ut temporibus!</p>
   </div>
 
-  <div class="chat-input">
-    <input [(ngModel)]="newMessage" placeholder="Escribe un mensaje..." (keyup.enter)="sendMessage()" />
-    <button (click)="sendMessage()" [disabled]="!newMessage.trim()">Enviar</button>
-  </div>
 </div>
