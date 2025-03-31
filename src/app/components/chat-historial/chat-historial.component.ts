@@ -8,6 +8,6 @@ import { GifService } from '../../services/chat-service.service';// Asegúrate d
 })
 export class ChatHistorialComponent {
 
-  constructor(private gifService: GifService) {}
+  constructor() {}
 
 }
