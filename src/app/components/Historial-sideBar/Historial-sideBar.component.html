@@ -19,10 +19,13 @@
            <br>
            <h3>HISTORIAL DE CONVERSACIONES</h3>
            <ul>
-             <li *ngFor="let conv of conversations$ | async" (click)="openConversation(conv.id)">
-               {{ conv.title }}
-             </li>
-           </ul>
+            @for (conv of conversations$ | async; track conv.id) {
+              <li (click)="openConversation(conv.id)">
+                {{ conv.title }}
+              </li>
+            }
+          </ul>
+
            <!-- <div id="profile" class="px-6 py-10">
             <p class="text-slate-500">Welcome back,</p>
             <a href="#" class="inline-flex space-x-2 items-center">
