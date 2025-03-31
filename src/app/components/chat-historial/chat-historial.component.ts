@@ -9,7 +9,7 @@ import { ChatTextbarComponent } from '../chat-textbar/chat-textbar.component';
 })
 export class ChatHistorialComponent {
   mensajes = signal<{ texto: string; tipo: 'usuario' | 'bot' }[]>([]);
-  chatInputOutput = inject(ChatTextbarComponent);
+  // chatInputOutput = inject(ChatTextbarComponent);
   constructor(private messageService: MessageService) {}
 
   enviarMensaje(texto: string) {
