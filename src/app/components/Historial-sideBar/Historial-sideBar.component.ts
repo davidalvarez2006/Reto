@@ -1,12 +1,19 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
+import { ChatServiceHistorial, Conversation } from '../../services/chatSave-service.service';
 
 @Component({
-  selector: 'app-historial-side-bar',
-  imports: [],
+  selector: 'app-sidebar',
   templateUrl: './Historial-sideBar.component.html',
-  styleUrl: './Historial-sideBar.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  styleUrls: ['./Historial-sideBar.component.css'],
 })
-export class HistorialSideBarComponent {
+export class SidebarComponent {
+  conversations$;
 
+  constructor(private chatService: ChatServiceHistorial) {
+    this.conversations$ = this.chatService.conversations$;
+  }
+
+  openConversation(id: number) {
+    console.log('Abriendo conversación con ID:', id);
+  }
 }
