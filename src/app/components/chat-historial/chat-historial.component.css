@@ -17,6 +17,7 @@
   padding: 10px;
   border-radius: 8px;
   margin: 5px 0;
+  max-width: 70%;
 }
 
 /* Mensaje alineado a la derecha */
@@ -27,4 +28,6 @@
   padding: 10px;
   border-radius: 8px;
   margin: 5px 0;
+  max-width: 70%;
+
 }

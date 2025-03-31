@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { GifService } from '../../services/chat-service.service';// Asegúrate de que la ruta sea la correcta
+import { MessageService } from '../../services/chat-service.service';// Asegúrate de que la ruta sea la correcta
 
 @Component({
   selector: 'app-chat-historial',
@@ -9,9 +9,9 @@ import { GifService } from '../../services/chat-service.service';// Asegúrate d
 export class ChatHistorialComponent {
 
 
-  constructor(private gifService: GifService) {}
+  constructor(private MessageService: MessageService) {}
   enviarPregunta(input: string) {
-    this.gifService.llamada(input).subscribe(
+    this.MessageService.llamada(input).subscribe(
       (respuesta) => {
         console.log('Respuesta del servidor:', respuesta);
       },
