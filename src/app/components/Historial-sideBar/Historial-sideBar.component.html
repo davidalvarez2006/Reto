@@ -17,7 +17,6 @@
            <h2 class="text">HISTORIAL DE CONVERSACIÓNES</h2>
            <hr class="barra">
            <br>
-           <h3>HISTORIAL DE CONVERSACIONES</h3>
            <ul>
             @for (conv of conversations$ | async; track conv.id) {
               <li (click)="openConversation(conv.id)">

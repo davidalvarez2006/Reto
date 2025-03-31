@@ -12,7 +12,7 @@ export class MessageService {
     const llamar: prompt = {
       question: input,
     };
-    return this.http.post(this.apiUrl, llamar);
+    return this.http.post<chatResponse>(this.apiUrl, llamar);
   }
 
 }
@@ -20,3 +20,8 @@ export class MessageService {
 interface prompt{
   question: string
 }
+
+export interface chatResponse{
+  answer: string
+}
+

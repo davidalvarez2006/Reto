@@ -23,6 +23,7 @@ export class ChatTextbarComponent {
   mensajes = signal<{ texto: string; tipo: 'usuario' | 'bot' }[]>([]);
 
   constructor(private messageService: MessageService) {}
+  public inputOutput:string[] = []
 
   enviarMensaje(texto: string) {
     if (texto.trim() === '') return;
@@ -40,6 +41,13 @@ export class ChatTextbarComponent {
       },
       error: (error) => console.error('Error al enviar mensaje:', error)
     });
+    this.inputOutput.push(texto);
+    console.log(this.inputOutput);
+
   }
 
 }
+
+
+
+
