@@ -1,5 +1,6 @@
 import { Component, signal } from '@angular/core';
 import { MessageService } from '../../services/chat-service.service';// Asegúrate de que la ruta sea la correcta
+import { ChatTextbarComponent } from '../chat-textbar/chat-textbar.component';
 
 @Component({
   selector: 'app-chat-historial',

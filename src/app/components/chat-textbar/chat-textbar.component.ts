@@ -10,8 +10,7 @@ import { MessageService } from '../../services/chat-service.service';
 })
 export class ChatTextbarComponent {
   constructor(private messageService: MessageService) {}
-  public mensaje = ''
-  public respuesta = ''
+  public inputOutput:string[] = []
 
   enviarMensaje(texto: string) {
     if (texto.trim() === '') return; // Evita enviar mensajes vacíos
@@ -21,14 +20,14 @@ export class ChatTextbarComponent {
     this.messageService.llamada(texto).subscribe({
       next: (response) => {
         console.log('Respuesta del servidor:', response);
-        this.respuesta = JSON.stringify(response);
-        console.log(this.respuesta);
+        this.inputOutput.push(JSON.stringify(response));
+        console.log(this.inputOutput);
 
       },
       error: (error) => console.error('Error al enviar mensaje:', error)
     });
-    this.mensaje = texto;
-    console.log(this.mensaje);
+    this.inputOutput.push(texto);
+    console.log(this.inputOutput);
 
   }
 }
