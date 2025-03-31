@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { MessageService } from '../../services/chat-service.service';// Asegúrate de que la ruta sea la correcta
 import { ChatTextbarComponent } from '../chat-textbar/chat-textbar.component';
 
@@ -9,7 +9,7 @@ import { ChatTextbarComponent } from '../chat-textbar/chat-textbar.component';
 })
 export class ChatHistorialComponent {
   mensajes = signal<{ texto: string; tipo: 'usuario' | 'bot' }[]>([]);
-
+  chatInputOutput = inject(ChatTextbarComponent);
   constructor(private messageService: MessageService) {}
 
   enviarMensaje(texto: string) {
