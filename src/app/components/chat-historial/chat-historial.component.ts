@@ -8,6 +8,16 @@ import { GifService } from '../../services/chat-service.service';// Asegúrate d
 })
 export class ChatHistorialComponent {
 
-  constructor() {}
 
+  constructor(private gifService: GifService) {}
+  enviarPregunta(input: string) {
+    this.gifService.llamada(input).subscribe(
+      (respuesta) => {
+        console.log('Respuesta del servidor:', respuesta);
+      },
+      (error) => {
+        console.error('Error al realizar la solicitud:', error);
+      }
+    );
+  }
 }
