@@ -19,7 +19,7 @@
            <br>
            <ul>
             @for (conv of conversations$ | async; track conv.id) {
-              <li id="conver" (click)="openConversation(conv.id)">
+              <li  class="conver" (click)="openConversation(conv.id)">
                 {{ conv.title }}
               </li>
             }
