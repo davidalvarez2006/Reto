@@ -1,15 +1,17 @@
-<div class="flex-container" id="message-container" #messageContainer>
-  <h2>Bienvenido a SendoaBot</h2>
-  <p class="message-left"> "¡Hola! Soy SendoaBot, tu asistente inteligente. Estoy aquí para responder tus preguntas, ayudarte con lo que necesites y hacer tu experiencia más fácil. ¡Dime en qué puedo ayudarte hoy!  </p>
-  @for (item of mensajes(); track $index) {
-    @if (item.tipo=='usuario') {
-      <p class="message-right">{{item.texto}}</p>
-    }@else {
-      <p class="message-left">{{item.texto}}</p>
-    }
-  }
+<div class="chat-container">
+  <div class="chat-box">
+    <h2>Bienvenido a SendoaBot</h2>
+    <div class="message-area" id="message-container" #messageContainer>
+      <p class="message-left">
+        "¡Hola! Soy SendoaBot, tu asistente inteligente. Estoy aquí para responder tus preguntas, ayudarte con lo que necesites y hacer tu experiencia más fácil. ¡Dime en qué puedo ayudarte hoy!"
+      </p>
+      @for (item of mensajes(); track $index) {
+        @if (item.tipo=='usuario') {
+          <p class="message-right">{{item.texto}}</p>
+        } @else {
+          <p class="message-left">{{item.texto}}</p>
+        }
+      }
+    </div>
+  </div>
 </div>
-
-
-
-

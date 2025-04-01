@@ -88,6 +88,8 @@ export class ChatTextbarComponent {
       error: (error) => console.error('Error al enviar mensaje:', error),
     });
     this.inputPregunta.nativeElement.value = '';  // Limpiar el campo de texto
+    this.inputPregunta.nativeElement.focus();
+
 
   }
 
