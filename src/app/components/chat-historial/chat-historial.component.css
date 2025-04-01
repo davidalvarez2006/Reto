@@ -38,3 +38,14 @@ h2{
   max-width: 70%;
 
 }
+
+#message-container {
+  max-height: 600px; /* Limita la altura máxima del contenedor */
+  overflow-y: auto; /* Habilita el desplazamiento vertical */
+  padding: 10px;
+  border: 1px solid #ddd;
+  background-color: #f9f9f9;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end; /* Asegura que los nuevos mensajes estén al final */
+}
