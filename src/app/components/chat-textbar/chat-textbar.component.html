@@ -1,6 +1,5 @@
 
 <div class="footer">
-  <p>¿En qué puedo ayudarte?</p>
   <input type="text" id="textBox" #inputPregunta placeholder="Introduce tu pregunta" class="border mr-0.5" (keydown.enter)="enviarMensaje(inputPregunta.value)" />
-  <input id="boton" type="button" (click)="enviarMensaje(inputPregunta.value)"  />
+  <input id="boton" value="Enviar" type="button" (click)="enviarMensaje(inputPregunta.value)"  />
 </div>

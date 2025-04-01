@@ -21,7 +21,7 @@
   text-align: center;
   display: flex;
   flex-direction: column;
-  height: 80vh; /* Ajusta la altura sin tapar el footer */
+  height: 79vh; /* Ajusta la altura sin tapar el footer */
 }
 
 h2 {
@@ -39,8 +39,8 @@ h2 {
   background-color: #f9f9f9;
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
   max-height: 75vh; /* Máximo hasta antes del footer */
+  scroll-behavior: smooth; /* Hace que el scroll sea suave */
 }
 
 /* Mensaje alineado a la izquierda */
