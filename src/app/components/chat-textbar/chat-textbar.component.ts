@@ -37,7 +37,7 @@
 //   }
 // }
 
-import { ChangeDetectionStrategy, Component, EventEmitter, Output, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, input, Output, signal, ViewChild } from '@angular/core';
 import { MessageService } from '../../services/chat-service.service';
 import { ChatServiceHistorial } from '../../services/chatSave-service.service';
 
@@ -50,6 +50,9 @@ import { ChatServiceHistorial } from '../../services/chatSave-service.service';
 export class ChatTextbarComponent {
   mensajes = signal<{ texto: string; tipo: 'usuario' | 'bot' }[]>([]);
   @Output() mensajeOutput = new EventEmitter<{ texto: string; tipo: 'usuario' | 'bot' }>();
+  @ViewChild('inputPregunta')
+  inputPregunta!: ElementRef;
+
   private activeConversationId: number;
 
   constructor(private messageService: MessageService, private chatHistorial: ChatServiceHistorial) {
@@ -84,6 +87,8 @@ export class ChatTextbarComponent {
       },
       error: (error) => console.error('Error al enviar mensaje:', error),
     });
+    this.inputPregunta.nativeElement.value = '';  // Limpiar el campo de texto
+
   }
 
 }
