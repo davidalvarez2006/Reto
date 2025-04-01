@@ -2,9 +2,14 @@
   <h2>Bienvenido aSendoaBot</h2>
   <p class="message-right">Hola, esto es un mensaje de prueba.</p>
   <p class="message-left">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Provident veritatis, voluptates ex dolorem nisi expedita soluta reprehenderit tempore commodi sint? Dolorum dolorem ipsum voluptate vitae laboriosam id beatae fuga harum.</p>
-  <!-- @for (item of mensajes(); track $index) {
-    <p class="message-right">{{item.texto}}</p>
-  } -->
+  @for (item of mensajes(); track $index) {
+    @if (item.tipo=='usuario') {
+      <p class="message-right">{{item.texto}}</p>
+    }@else {
+      <p class="message-left">{{item.texto}}</p>
+    }
+
+  }
 </div>
 
 

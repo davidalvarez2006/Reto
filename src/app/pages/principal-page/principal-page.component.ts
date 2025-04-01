@@ -11,4 +11,11 @@ import { CommonModule } from '@angular/common';
   styleUrl: './principal-page.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PrincipalPageComponent { }
+export class PrincipalPageComponent {
+  mensajesGuardados: { texto: string; tipo: 'usuario' | 'bot' }[] = [];
+
+  recibirMensaje(mensaje: { texto: string; tipo: 'usuario' | 'bot' }) {
+    this.mensajesGuardados.push(mensaje);
+    console.log('Mensaje guardado:', mensaje);
+  }
+ }

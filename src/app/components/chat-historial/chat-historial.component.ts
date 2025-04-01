@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, input, Input, signal } from '@angular/core';
 import { MessageService } from '../../services/chat-service.service';// Asegúrate de que la ruta sea la correcta
 
 @Component({
@@ -7,29 +7,36 @@ import { MessageService } from '../../services/chat-service.service';// Asegúra
   styleUrls: ['./chat-historial.component.css'],
 })
 export class ChatHistorialComponent {
-  mensajes = signal<{ texto: string; tipo: 'usuario' | 'bot' }[]>([]);
+  // mensajes = signal<{ texto: string; tipo: 'usuario' | 'bot' }[]>([]);
 
-  constructor(private messageService: MessageService) {}
+  // constructor(private messageService: MessageService) {}
 
-  enviarMensaje(texto: string) {
-    if (texto.trim() === '') return;
+  // enviarMensaje(texto: string) {
+  //   if (texto.trim() === '') return;
 
-    // Agregar mensaje del usuario
-    this.mensajes.update((msgs) => [...msgs, { texto, tipo: 'usuario' }]);
+  //   // Agregar mensaje del usuario
+  //   this.mensajes.update((msgs) => [...msgs, { texto, tipo: 'usuario' }]);
 
-    this.messageService.llamada(texto).subscribe({
-      next: (respuesta) => {
-        // Convertir respuesta a string si es un objeto
-        const textoRespuesta = typeof respuesta === 'string' ? respuesta : JSON.stringify(respuesta);
+  //   this.messageService.llamada(texto).subscribe({
+  //     next: (respuesta) => {
+  //       // Convertir respuesta a string si es un objeto
+  //       const textoRespuesta = typeof respuesta === 'string' ? respuesta : JSON.stringify(respuesta);
 
-        // Agregar respuesta del bot
-        this.mensajes.update((msgs) => [...msgs, { texto: textoRespuesta, tipo: 'bot' }]);
-      },
-      error: (error) => console.error('Error al enviar mensaje:', error)
-    });
-  }
+  //       // Agregar respuesta del bot
+  //       this.mensajes.update((msgs) => [...msgs, { texto: textoRespuesta, tipo: 'bot' }]);
+  //     },
+  //     error: (error) => console.error('Error al enviar mensaje:', error)
+  //   });
+  // }
+  // @Input() mensajes: mensajes[] = [];
+  mensajes = input<mensajes[]>()
+
 }
 
+interface mensajes{
+  texto: string;
+  tipo: 'usuario' | 'bot' ;
+}
 
 
 
