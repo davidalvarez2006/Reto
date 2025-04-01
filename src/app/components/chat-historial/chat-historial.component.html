@@ -1,7 +1,6 @@
 <div class="flex-container">
-  <h2>Bienvenido a SalsaBot</h2>
-  <p class="message-right">Hola, esto es un mensaje de prueba.</p>
-  <p class="message-left">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Provident veritatis, voluptates ex dolorem nisi expedita soluta reprehenderit tempore commodi sint? Dolorum dolorem ipsum voluptate vitae laboriosam id beatae fuga harum.</p>
+  <h2>Bienvenido a SendoaBot</h2>
+  <p class="message-left"> "¡Hola! Soy SendoaBot, tu asistente inteligente. Estoy aquí para responder tus preguntas, ayudarte con lo que necesites y hacer tu experiencia más fácil. ¡Dime en qué puedo ayudarte hoy!  </p>
   @for (item of mensajes(); track $index) {
     @if (item.tipo=='usuario') {
       <p class="message-right">{{item.texto}}</p>
