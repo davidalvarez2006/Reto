@@ -1,10 +1,15 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
+export interface Message {
+  texto: string;
+  tipo: 'usuario' | 'bot';
+}
+
 export interface Conversation {
   id: number;
   title: string;
-  messages: string[];
+  messages: Message[];
 }
 
 @Injectable({
@@ -21,24 +26,56 @@ export class ChatServiceHistorial implements OnDestroy {
     window.addEventListener('beforeunload', () => this.saveToLocalStorage());
   }
 
-  addConversation(title: string, messages: string[]) {
+  /**
+   * Crea una nueva conversación en el historial.
+   */
+  addConversation(title: string, messages: Message[]): number {
     const newConversation: Conversation = { id: this.nextId++, title, messages };
     this.conversations.push(newConversation);
     this.updateConversations();
+    this.saveToLocalStorage(); // Guarda en localStorage
+    return newConversation.id; // 🔹 Ahora retorna el ID
   }
 
+
+
+  /**
+   * Agrega un mensaje a una conversación existente.
+   */
+  addMessageToConversation(conversationId: number, message: { texto: string; tipo: 'usuario' | 'bot' }) {
+    const conversation = this.conversations.find(c => c.id === conversationId);
+    if (conversation) {
+      conversation.messages.push(message);
+      this.updateConversations();
+    }
+  }
+
+
+  /**
+   * Obtiene una conversación específica por su ID.
+   */
   getConversationById(id: number): Conversation | undefined {
-    return this.conversations.find((c) => c.id === id);
+    return this.conversations.find(c => c.id === id);
   }
 
+  /**
+   * Actualiza la lista de conversaciones y guarda en `localStorage`.
+   */
   private updateConversations() {
     this.conversationsSubject.next([...this.conversations]);
+    this.saveToLocalStorage();
   }
 
+  /**
+   * Guarda el historial de chats en `localStorage`.
+   */
   private saveToLocalStorage() {
     localStorage.setItem('conversations', JSON.stringify(this.conversations));
   }
 
+  /**
+   * Carga las conversaciones guardadas en `localStorage`.
+   */
   private loadFromLocalStorage() {
     const storedData = localStorage.getItem('conversations');
     if (storedData) {
