@@ -13,12 +13,18 @@
 
 .footer {
   position: fixed;
-  bottom: 0px;
-  left: 400px;
-  width: 70%;
+  bottom: 1em;
+  left: 45em;
+  width: 30%;
   background-color: #ff5c04;
   color: white;
   text-align: center;
   padding: 10px;
+  border-radius: 1.5em;
 }
 
+#textBox{
+  border-radius: 1em;
+  width: 25em;
+  padding-left: 0.5em;
+}
