@@ -1,4 +1,8 @@
-<app-sidebar />
+<!-- <app-sidebar />
 <app-chat-historial style="margin-left: 280px; margin-right: 20px; padding-bottom: 100px;" [mensajes]="mensajesGuardados"/>
+<app-chat-textbar (mensajeOutput)="recibirMensaje($event)"/> -->
+
+<app-sidebar (selectedConversation)="mensajesGuardados = $event"></app-sidebar>
+<app-chat-historial [mensajes]="mensajesGuardados"></app-chat-historial>
 <app-chat-textbar (mensajeOutput)="recibirMensaje($event)"/>
 
