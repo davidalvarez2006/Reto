@@ -13,9 +13,9 @@
 
 .footer {
   position: fixed;
-  bottom: 15px;
-  left: 650px;
-  width: 30%;
+  bottom: 0px;
+  left: 400px;
+  width: 70%;
   background-color: #ff5c04;
   color: white;
   text-align: center;
