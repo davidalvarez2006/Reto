@@ -18,6 +18,8 @@ color: white;
   padding: 0.2em;
   transition: background-color 0.3s ease, color 0.3s ease;
   border-radius: 1em;
+  max-width: fit-content;
+  word-break: break-all;
 }
 
 .conver:hover {
