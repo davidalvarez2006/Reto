@@ -52,6 +52,7 @@ h2 {
   border-radius: 8px;
   margin: 5px 0;
   max-width: 70%;
+  overflow-wrap: break-word;
 }
 
 /* Mensaje alineado a la derecha */
@@ -63,4 +64,6 @@ h2 {
   border-radius: 8px;
   margin: 5px 0;
   max-width: 70%;
+  overflow-wrap: break-word;
+
 }
