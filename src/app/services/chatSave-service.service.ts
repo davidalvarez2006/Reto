@@ -89,4 +89,12 @@ export class ChatServiceHistorial implements OnDestroy {
     this.saveToLocalStorage();
     window.removeEventListener('beforeunload', () => this.saveToLocalStorage());
   }
+
+  clearConversations() {
+    this.conversations = []; // 🔹 Vacía el array de conversaciones
+    this.updateConversations(); // 🔹 Notifica el cambio a la interfaz
+    localStorage.removeItem('conversations'); // 🔹 Borra del localStorage
+  }
+  
 }
+
