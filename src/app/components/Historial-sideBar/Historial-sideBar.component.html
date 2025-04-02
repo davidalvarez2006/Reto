@@ -66,19 +66,22 @@
 </style>
 <div class="bg-slate-100 w-screen h-screen antialiased text-slate-300 selection:bg-blue-600 selection:text-white fixed">
     <div class="flex flex-col relative w-screen">
-      <div id="menu" style="background-color: #ff5c04" class="min-h-screen z-10 text-slate-300 w-64 fixed left-0 h-screen ">
-           <div id="logo" class="my-4 px-6">
-            <h1 class="text-lg md:text-2xl font-bold text-white">DavidChat5001</h1>
-            <p class="text-sm text-white">Solución para todas tus dudas pulsando un boton</p>
-           </div>
-           <h2 class="text">HISTORIAL DE CONVERSACIÓNES</h2>
-           <hr class="barra">
-           <br>
-           <ul>
-            @for (conv of conversations$ | async; track conv.id) {
-              <li  class="conver" (click)="openConversation(conv.id)">
-                {{ conv.title }}
-              </li>
-            }
-          </ul>
+        <div id="menu">
+            <div id="logo">
+                <h1 class="text-lg md:text-2xl font-bold">DavidChat5001</h1>
+                <p class="text-sm">Solución para todas tus dudas pulsando un botón</p>
+            </div>
+            <h2 class="text">HISTORIAL DE CONVERSACIONES</h2>
+            <hr class="barra">
+            <br>
+            <ul>
+                @for (conv of conversations$ | async; track conv.id) {
+                    <li class="conver" (click)="openConversation(conv.id)">
+                        {{ conv.title }}
+                    </li>
+                }
+            </ul>
+            <button (click)="clearHistory()" class="clear-history-btn">Delete all</button>
+        </div>
+    </div>
 </div>
