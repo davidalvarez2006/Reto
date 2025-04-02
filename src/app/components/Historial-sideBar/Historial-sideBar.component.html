@@ -35,6 +35,7 @@
         overflow-y: auto;
         padding-left: 1.75em;
         padding-right: 1.75em;
+
     }
     .conver {
         margin-bottom: 0.2em;
@@ -47,7 +48,7 @@
         background-color: white;
         color: black;
     }
-    .clear-history-btn {
+    .clear-history-btn, .create-conversation-btn {
         margin-left: 1.75em;
         margin-right: 1.75em;
         padding: 0.5em;
@@ -58,8 +59,10 @@
         cursor: pointer;
         transition: background-color 0.3s ease, color 0.3s ease;
         border: none;
+        margin-bottom: 0.5em;
+        margin-top: 0.5em;
     }
-    .clear-history-btn:hover {
+    .clear-history-btn:hover, .create-conversation-btn:hover {
         background-color: white;
         color: black;
     }
@@ -75,13 +78,13 @@
             <hr class="barra">
             <br>
             <ul>
-                @for (conv of conversations$ | async; track conv.id) {
-                    <li class="conver" (click)="openConversation(conv.id)">
-                        {{ conv.title }}
-                    </li>
-                }
+                <!-- Lista de conversaciones -->
+                <li *ngFor="let conv of conversations$ | async" (click)="openConversation(conv.id)" class="conver">
+                    {{ conv.title }}
+                </li>
             </ul>
-            <button (click)="clearHistory()" class="clear-history-btn">Delete all</button>
+            <button (click)="createNewConversation()" class="create-conversation-btn">New Chat</button>
+            <button (click)="clearHistory()" class="clear-history-btn">Delete All</button>
         </div>
     </div>
 </div>
