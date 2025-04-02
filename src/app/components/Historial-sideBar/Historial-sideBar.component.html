@@ -1,78 +1,103 @@
 <link rel="preconnect" href="https://rsms.me/">
 <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
 <style>
-    :root { font-family: 'Inter', sans-serif; }
-    @supports (font-variation-settings: normal) {
-        :root { font-family: 'Inter var', sans-serif; }
-    }
-    #menu {
-        display: flex;
-        flex-direction: column;
-        height: 100vh;
-        background-color: #ff5c04;
-        color: white;
-        width: 16rem; /* 64px * 4 = 16rem */
-        position: fixed;
-        left: 0;
-        top: 0;
-        padding-bottom: 1rem;
-    }
-    #logo {
-        padding: 1rem 1.5rem;
-    }
-    .text {
-        margin-left: 1.75em;
-        margin-right: 1.75em;
-        text-align: center;
-        color: white;
-    }
-    .barra {
-        margin-left: 1.75em;
-        width: 11.5em;
-    }
-    ul {
-        flex-grow: 1;
-        overflow-y: auto;
-        padding-left: 1.75em;
-        padding-right: 1.75em;
-
-    }
-    .conver {
-        margin-bottom: 0.2em;
-        display: block;
-        padding: 0.2em;
-        transition: background-color 0.3s ease, color 0.3s ease;
-        border-radius: 1em;
-    }
-    .conver:hover {
-        background-color: white;
-        color: black;
-    }
-    .clear-history-btn, .create-conversation-btn {
-        margin-left: 1.75em;
-        margin-right: 1.75em;
-        padding: 0.5em;
-        background-color: #ff3b3b;
-        color: white;
-        border-radius: 1em;
-        text-align: center;
-        cursor: pointer;
-        transition: background-color 0.3s ease, color 0.3s ease;
-        border: none;
-        margin-bottom: 0.5em;
-        margin-top: 0.5em;
-    }
-    .clear-history-btn:hover, .create-conversation-btn:hover {
-        background-color: white;
-        color: black;
-    }
+  /* Estilos existentes */
+  :root { font-family: 'Inter', sans-serif; }
+  @supports (font-variation-settings: normal) {
+      :root { font-family: 'Inter var', sans-serif; }
+  }
+  #menu {
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      background-color: #ff5c04;
+      color: white;
+      width: 16rem; /* 64px * 4 = 16rem */
+      position: fixed;
+      left: 0;
+      top: 0;
+      padding-bottom: 1rem;
+  }
+  #logo {
+      padding: 1rem 1.5rem;
+  }
+  .text {
+      margin-left: 1.75em;
+      margin-right: 1.75em;
+      text-align: center;
+      color: white;
+  }
+  .barra {
+      margin-left: 1.75em;
+      width: 12.5em;
+  }
+  ul {
+      flex-grow: 1;
+      overflow-y: auto;
+      padding-left: 1.5em;
+      padding-right: 1em;
+  }
+  .conver {
+      margin-bottom: 0.2em;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.5em;
+      transition: background-color 0.3s ease, color 0.3s ease;
+      border-radius: 1em;
+      background-color: #ff6c1f; /* Un color ligeramente distinto para el fondo del item */
+  }
+  .conver:hover {
+      background-color: white;
+      color: black;
+  }
+  .conver button {
+      background: none;
+      border: none;
+      font-size: 1rem;
+      cursor: pointer;
+  }
+  .conver button:first-child {
+      font-weight: bold; /* Titulo destacado */
+      margin-right: 1em;
+  }
+  .conver button:last-child {
+      background-color: #ff3b3b;
+      color: white;
+      border-radius: 0.5em;
+      padding: 0.3em 0.6em;
+      transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  .conver button:last-child:hover {
+      background-color: black;
+      color: red;
+  }
+  .clear-history-btn, .create-conversation-btn {
+      margin-left: 1.75em;
+      margin-right: 1.5em;
+      padding: 0.5em;
+      background-color: #ff3b3b;
+      color: white;
+      border-radius: 1em;
+      text-align: center;
+      cursor: pointer;
+      transition: background-color 0.3s ease, color 0.3s ease;
+      border: none;
+      margin-bottom: 0.5em;
+      margin-top: 0.5em;
+  }
+  .clear-history-btn:hover, .create-conversation-btn:hover {
+      background-color: white;
+      color: black;
+  }
 </style>
+
 <div class="bg-slate-100 w-screen h-screen antialiased text-slate-300 selection:bg-blue-600 selection:text-white fixed">
     <div class="flex flex-col relative w-screen">
         <div id="menu">
             <div id="logo">
-                <h1 class="text-lg md:text-2xl font-bold">DavidChat5001</h1>
-                <p class="text-sm">Solución para todas tus dudas pulsando un botón</p>
+                <h1 class="text-lg md:text-2xl font-bold">LKS</h1>
+                <p class="text-1x1 text-justify">Consultora tecnológica y de negocio que impulsa la transformación digital de empresas.</p>
             </div>
             <h2 class="text">HISTORIAL DE CONVERSACIONES</h2>
             <hr class="barra">
@@ -80,8 +105,10 @@
             <ul>
                 <!-- Lista de conversaciones -->
                 <li *ngFor="let conv of conversations$ | async" (click)="openConversation(conv.id)" class="conver">
-                    {{ conv.title }}
+                    <button>{{ conv.title }}</button>
+                    <button (click)="deleteConversation(conv.id)" style="margin-left: 10px;">Borrar</button>
                 </li>
+
             </ul>
             <button (click)="createNewConversation()" class="create-conversation-btn">New Chat</button>
             <button (click)="clearHistory()" class="clear-history-btn">Delete All</button>

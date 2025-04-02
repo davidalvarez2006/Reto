@@ -95,6 +95,9 @@ export class ChatServiceHistorial implements OnDestroy {
     this.updateConversations(); // 🔹 Notifica el cambio a la interfaz
     localStorage.removeItem('conversations'); // 🔹 Borra del localStorage
   }
-  
+  deleteConversation(id: number): void {
+    this.conversations = this.conversations.filter(conv => conv.id !== id);
+    this.conversationsSubject.next(this.conversations);
+  }
 }
 

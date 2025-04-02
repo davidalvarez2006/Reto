@@ -25,13 +25,17 @@ export class SidebarComponent {
       this.selectedConversation.emit(conversation.messages); // 🔹 Emitimos los mensajes al chat
     }
   }
-  clearHistory() {
-    this.chatService.clearConversations(); // 🔹 Llama al servicio para limpiar las conversaciones
-  }
   createNewConversation() {
     const newTitle = 'Nueva Conversación'; // Puedes personalizar el título o solicitarlo al usuario
     const newMessages: Message[] = []; // Inicializa la lista de mensajes vacía
-    this.chatService.addConversation(newTitle, newMessages); // Crea y agrega la nueva conversación
+    const newId = this.chatService.addConversation(newTitle, newMessages); // Crea y agrega la nueva conversación y obtiene el ID
+    this.openConversation(newId); // Abre la conversación recién creada
   }
 
+  deleteConversation(id: number): void {
+    this.chatService.deleteConversation(id);
+  }
+  clearHistory() {
+    this.chatService.clearConversations(); // 🔹 Llama al servicio para limpiar las conversaciones
+  }
 }
