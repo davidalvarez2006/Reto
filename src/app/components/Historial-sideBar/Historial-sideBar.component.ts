@@ -31,7 +31,9 @@ export class SidebarComponent {
     this.openConversation(newId); // Abre la conversación recién creada
   }
 
-  
+  deleteConversation(id: number): void {
+    this.chatService.deleteConversation(id);
+  }
   clearHistory() {
     this.chatService.clearConversations(); // 🔹 Llama al servicio para limpiar las conversaciones
   }
