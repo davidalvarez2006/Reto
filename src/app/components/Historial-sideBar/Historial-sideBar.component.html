@@ -10,12 +10,16 @@
           <hr class="barra">
           <br>
           <ul>
-              <!-- Lista de conversaciones -->
-              <li *ngFor="let conv of conversations$ | async" (click)="openConversation(conv.id)" class="conver">
-                  <button>{{ conv.title }}</button>
-                  <button (click)="deleteConversation(conv.id)" style="margin-left: 10px;">Borrar</button>
-              </li>
+            <!-- Lista de conversaciones -->
+            <li *ngFor="let conv of conversations$ | async"
+                (click)="openConversation(conv.id)"
+                [class.selected]="conv.id === selectedChatId"
+                class="conver">
+                <button>{{ conv.title }}</button>
+                <button (click)="deleteConversation(conv.id); $event.stopPropagation()" style="margin-left: 10px;">Borrar</button>
+            </li>
           </ul>
+
 
           <!-- Input para el nuevo chat -->
           <input
@@ -27,7 +31,7 @@
               class="nuevo-chat-input"
           />
 
-          <button (click)="clearHistory()" class="clear-history-btn">Delete All</button>
-      </div>
+          <button type="button" (click)="clearHistory()" class="clear-history-btn">Delete All</button>
+        </div>
   </div>
 </div>

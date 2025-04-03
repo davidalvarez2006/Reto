@@ -10,29 +10,30 @@ import { FormsModule } from '@angular/forms';
   imports: [CommonModule, FormsModule],
 })
 export class SidebarComponent {
-  newChatTitle: string = '';  // Propiedad para almacenar el título del nuevo chat
+  newChatTitle: string = '';
   conversations$;
+  selectedChatId: number | null = null; // 🔹 Variable para almacenar el ID del chat seleccionado
 
-  @Output() selectedConversation = new EventEmitter<{ texto: string; tipo: 'usuario' | 'bot' }[]>(); // 🔹 Agregamos el Output
+  @Output() selectedConversation = new EventEmitter<{ texto: string; tipo: 'usuario' | 'bot' }[]>();
 
   constructor(private chatService: ChatServiceHistorial) {
     this.conversations$ = this.chatService.conversations$;
   }
 
   openConversation(id: number) {
+    this.selectedChatId = id; // 🔹 Marcar como seleccionado
     const conversation = this.chatService.getConversationById(id);
     if (conversation) {
-      this.selectedConversation.emit(conversation.messages); // 🔹 Emitimos los mensajes al chat
+      this.selectedConversation.emit(conversation.messages);
     }
   }
 
-  // Función para crear un nuevo chat con un título personalizado
   createNewConversation() {
-    if (this.newChatTitle.trim() !== '') { // Aseguramos que el título no esté vacío
-      const newMessages: Message[] = []; // Inicializa la lista de mensajes vacía
-      const newId = this.chatService.addConversation(this.newChatTitle, newMessages); // Crea y agrega la nueva conversación con el título dado
-      this.openConversation(newId); // Abre la conversación recién creada
-      this.newChatTitle = ''; // Limpia el campo de entrada después de crear el chat
+    if (this.newChatTitle.trim() !== '') {
+      const newMessages: Message[] = [];
+      const newId = this.chatService.addConversation(this.newChatTitle, newMessages);
+      this.openConversation(newId);
+      this.newChatTitle = '';
     } else {
       alert('Por favor, ingresa un título para la nueva conversación.');
     }
@@ -40,9 +41,13 @@ export class SidebarComponent {
 
   deleteConversation(id: number): void {
     this.chatService.deleteConversation(id);
+    if (this.selectedChatId === id) {
+      this.selectedChatId = null; // 🔹 Desmarcar si se elimina el chat seleccionado
+    }
   }
 
   clearHistory() {
-    this.chatService.clearConversations(); // 🔹 Llama al servicio para limpiar las conversaciones
+    this.chatService.clearConversations();
+    this.selectedChatId = null; // 🔹 Limpiar la selección
   }
 }

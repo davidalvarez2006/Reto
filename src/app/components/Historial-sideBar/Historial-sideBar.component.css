@@ -122,3 +122,10 @@ ul {
   margin-left: 1.5em;
   border: 1px solid #ccc;
 }
+
+.selected {
+  background-color: red; /* Color de fondo para destacar */
+  color: white; /* Color del texto */
+  font-weight: bold;
+}
+

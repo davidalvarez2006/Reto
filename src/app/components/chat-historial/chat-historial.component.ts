@@ -18,8 +18,6 @@ export class ChatHistorialComponent implements AfterViewChecked {
     }
   }
 
-  
-
 }
 
 interface mensajes{
