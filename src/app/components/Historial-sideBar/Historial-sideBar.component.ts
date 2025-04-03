@@ -2,7 +2,6 @@
 import { Component, Output, EventEmitter } from '@angular/core';
 import { ChatServiceHistorial, Conversation, Message } from '../../services/chatSave-service.service';
 import { CommonModule } from '@angular/common';
-import { DataBaseService } from '../../services/DataBase-service.service.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -15,7 +14,7 @@ export class SidebarComponent {
 
   @Output() selectedConversation = new EventEmitter<{ texto: string; tipo: 'usuario' | 'bot' }[]>(); // 🔹 Agregamos el Output
 
-  constructor(private chatService: ChatServiceHistorial, private DataBaseService: DataBaseService ) {
+  constructor(private chatService: ChatServiceHistorial) {
     this.conversations$ = this.chatService.conversations$;
   }
 
