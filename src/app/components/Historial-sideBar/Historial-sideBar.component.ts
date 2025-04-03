@@ -30,14 +30,21 @@ export class SidebarComponent {
 
   createNewConversation() {
     if (this.newChatTitle.trim() !== '') {
+      // Limitar la longitud del título a 15 caracteres y agregar "..."
+      const maxLength = 9;
+      const truncatedTitle = this.newChatTitle.length > maxLength
+        ? this.newChatTitle.substring(0, maxLength) + '...'
+        : this.newChatTitle;
+
       const newMessages: Message[] = [];
-      const newId = this.chatService.addConversation(this.newChatTitle, newMessages);
+      const newId = this.chatService.addConversation(truncatedTitle, newMessages);
       this.openConversation(newId);
       this.newChatTitle = '';
     } else {
       alert('Por favor, ingresa un título para la nueva conversación.');
     }
   }
+
 
   deleteConversation(id: number): void {
     this.chatService.deleteConversation(id);
