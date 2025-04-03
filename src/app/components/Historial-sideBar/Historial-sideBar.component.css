@@ -1,0 +1,124 @@
+:root {
+  font-family: 'Inter', sans-serif;
+}
+@supports (font-variation-settings: normal) {
+  :root {
+    font-family: 'Inter var', sans-serif;
+  }
+}
+
+#menu {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background-color: #ff5c04;
+  color: white;
+  width: 16rem; /* 64px * 4 = 16rem */
+  position: fixed;
+  left: 0;
+  top: 0;
+  padding-bottom: 1rem;
+}
+
+#logo {
+  padding: 1rem 1.5rem;
+}
+
+.text {
+  margin-left: 1.75em;
+  margin-right: 1.75em;
+  text-align: center;
+  color: white;
+}
+
+.barra {
+  margin-left: 1.75em;
+  width: 12.5em;
+}
+
+ul {
+  flex-grow: 1;
+  overflow-y: auto;
+  padding-left: 1.5em;
+  padding-right: 1em;
+}
+
+.conver {
+  margin-bottom: 0.2em;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5em;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  border-radius: 1em;
+  background-color: #ff6c1f; /* Un color ligeramente distinto para el fondo del item */
+}
+
+.conver:hover {
+  background-color: white;
+  color: black;
+}
+
+.conver button {
+  background: none;
+  border: none;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.conver button:first-child {
+  font-weight: bold; /* Titulo destacado */
+  margin-right: 1em;
+}
+
+.conver button:last-child {
+  background-color: #ff3b3b;
+  color: white;
+  border-radius: 0.5em;
+  padding: 0.3em 0.6em;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.conver button:last-child:hover {
+  background-color: black;
+  color: red;
+}
+
+.clear-history-btn,
+.create-conversation-btn {
+  margin-left: 1.75em;
+  margin-right: 1.5em;
+  padding: 0.5em;
+  background-color: #ff3b3b;
+  color: white;
+  border-radius: 1em;
+  text-align: center;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  border: none;
+  margin-bottom: 0.5em;
+  margin-top: 0.5em;
+}
+
+.clear-history-btn:hover,
+.create-conversation-btn:hover {
+  background-color: white;
+  color: black;
+}
+
+/* Estilo para el nuevo input */
+.input-container {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: center;
+}
+
+.nuevo-chat-input {
+  width: 13em;
+  height: 3em;
+  border-radius: 1em;
+  padding-left: 0.5em;
+  padding: 10px;
+  margin-left: 1.5em;
+  border: 1px solid #ccc;
+}

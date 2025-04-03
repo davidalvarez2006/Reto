@@ -14,11 +14,10 @@ export class ChatTextbarComponent {
   @ViewChild('inputPregunta')
   inputPregunta!: ElementRef;
 
-  private activeConversationId: number;
+  private activeConversationId: number=0;
 
   constructor(private messageService: MessageService, private chatHistorial: ChatServiceHistorial) {
     // Creamos una nueva conversación al iniciar
-    this.activeConversationId = this.chatHistorial.addConversation('Nueva Conversación', []);
   }
 
   // Función para truncar el mensaje si es demasiado largo
@@ -65,7 +64,7 @@ export class ChatTextbarComponent {
   }
 
   // Método para iniciar una nueva conversación (Nuevo Chat)
- 
+
   nuevoChat() {
     // Limpiar los mensajes actuales de la interfaz
     this.mensajes.update(() => []); // Vaciar el historial de mensajes
