@@ -9,13 +9,21 @@ services:
       - MYSQL_DATABASE=$MYSQLDB_DATABASE
     ports:
       - $MYSQLDB_LOCAL_PORT:$MYSQLDB_DOCKER_PORT
-    
+    volumes:
+      - mysqldb_data:/var/lib/mysql
+
   app:
     build: .
     depends_on:
       - mysqldb
     env_file: ./.env
-    links:
-      - mysqldb
     ports:
       - $NODE_LOCAL_PORT:$NODE_DOCKER_PORT
+    links:
+      - mysqldb
+    volumes:
+      - .:/myapp
+      - /myapp/node_modules
+
+volumes:
+  mysqldb_data:
