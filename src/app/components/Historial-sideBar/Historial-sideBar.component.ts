@@ -1,4 +1,4 @@
-import { Component, Output, EventEmitter } from '@angular/core';
+import { Component, Output, EventEmitter, OnInit } from '@angular/core';
 import { ChatServiceHistorial, Conversation, Message } from '../../services/chatSave-service.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -9,10 +9,12 @@ import { FormsModule } from '@angular/forms';
   styleUrls: ['./Historial-sideBar.component.css'],
   imports: [CommonModule, FormsModule],
 })
-export class SidebarComponent {
+export class SidebarComponent implements OnInit {
   newChatTitle: string = '';
   conversations$;
-  selectedChatId: number | null = null; // 🔹 Variable para almacenar el ID del chat seleccionado
+  selectedChatId: number | null = null;
+  isMobileMenuOpen: boolean = false; // Estado para el menú móvil
+  isMobile: boolean = false; // Propiedad para verificar si es móvil
 
   @Output() selectedConversation = new EventEmitter<{ texto: string; tipo: 'usuario' | 'bot' }[]>();
 
@@ -20,17 +22,30 @@ export class SidebarComponent {
     this.conversations$ = this.chatService.conversations$;
   }
 
+  ngOnInit() {
+    this.checkIfMobile();
+    window.addEventListener('resize', () => this.checkIfMobile()); // Escuchar el cambio de tamaño de la ventana
+  }
+
+  checkIfMobile() {
+    this.isMobile = window.innerWidth <= 768; // Definir el tamaño del dispositivo como móvil si el ancho es <= 768px
+  }
+
   openConversation(id: number) {
-    this.selectedChatId = id; // 🔹 Marcar como seleccionado
+    this.selectedChatId = id;
     const conversation = this.chatService.getConversationById(id);
     if (conversation) {
       this.selectedConversation.emit(conversation.messages);
     }
+    this.isMobileMenuOpen = false; // Cierra el menú al seleccionar
+  }
+
+  toggleMobileMenu() {
+    this.isMobileMenuOpen = !this.isMobileMenuOpen;
   }
 
   createNewConversation() {
     if (this.newChatTitle.trim() !== '') {
-      // Limitar la longitud del título a 15 caracteres y agregar "..."
       const maxLength = 9;
       const truncatedTitle = this.newChatTitle.length > maxLength
         ? this.newChatTitle.substring(0, maxLength) + '...'
@@ -45,16 +60,15 @@ export class SidebarComponent {
     }
   }
 
-
   deleteConversation(id: number): void {
     this.chatService.deleteConversation(id);
     if (this.selectedChatId === id) {
-      this.selectedChatId = null; // 🔹 Desmarcar si se elimina el chat seleccionado
+      this.selectedChatId = null;
     }
   }
 
   clearHistory() {
     this.chatService.clearConversations();
-    this.selectedChatId = null; // 🔹 Limpiar la selección
+    this.selectedChatId = null;
   }
 }
