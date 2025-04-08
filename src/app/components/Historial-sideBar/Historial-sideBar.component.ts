@@ -25,6 +25,16 @@ export class SidebarComponent implements OnInit {
   ngOnInit() {
     this.checkIfMobile();
     window.addEventListener('resize', () => this.checkIfMobile()); // Escuchar el cambio de tamaño de la ventana
+
+    // Cargar las conversaciones desde el servicio
+    this.chatService.conversations$.subscribe({
+      next: (conversations) => {
+        this.conversations$ = conversations;
+      },
+      error: (error) => {
+        console.error('Error al cargar las conversaciones:', error);
+      }
+    });
   }
 
   checkIfMobile() {
