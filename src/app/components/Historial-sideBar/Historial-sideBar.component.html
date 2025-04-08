@@ -17,15 +17,15 @@
     color: white;
     width: 16rem;
     position: fixed;
-    left: -16rem; /* Ocultamos el menú fuera de la pantalla */
+    left: -16rem;
     top: 0;
     padding-bottom: 1rem;
     z-index: 10;
-    transition: transform 0.3s ease; /* Animación de desplazamiento */
+    transition: transform 0.3s ease;
   }
 
   #menu.show {
-    transform: translateX(16rem); /* El menú se mueve hacia la derecha cuando se muestra */
+    transform: translateX(16rem);
   }
 
   #logo {
@@ -93,7 +93,7 @@
   }
 
   .clear-history-btn,
-  .create-conversation-btn {
+  .create-conversation-btn{
     margin-left: 1.75em;
     margin-right: 1.5em;
     padding: 0.5em;
@@ -105,19 +105,13 @@
     transition: background-color 0.3s ease, color 0.3s ease;
     border: none;
     margin-bottom: 0.5em;
-    margin-top: 0.5em;
+    margin-top: 0.4em;
   }
 
   .clear-history-btn:hover,
   .create-conversation-btn:hover {
     background-color: white;
     color: black;
-  }
-
-  .input-container {
-    margin-top: 1rem;
-    display: flex;
-    justify-content: center;
   }
 
   .nuevo-chat-input {
@@ -127,6 +121,7 @@
     padding-left: 0.5em;
     padding: 10px;
     margin-left: 1.5em;
+    margin-bottom: 0.4em;
     border: 1px solid #ccc;
   }
 
@@ -136,7 +131,6 @@
     font-weight: bold;
   }
 
-  /* Modo responsive */
   @media (max-width: 768px) {
     #menu {
       position: absolute;
@@ -144,12 +138,12 @@
       left: 0;
       width: 100%;
       height: auto;
-      display: none; /* Ocultamos el menú por defecto */
+      display: none;
     }
 
     #menu.show {
-      display: block; /* Mostramos el menú cuando tiene la clase 'show' */
-      transform: translateX(0); /* El menú se mueve de su posición original */
+      display: block;
+      transform: translateX(0);
     }
 
     .hamburger {
@@ -169,20 +163,23 @@
       outline: none;
     }
 
-    .barra{
-      width: 92%;
+    .barra {
+      width: 90%;
     }
 
-    .clear-history-btn{
-      width: 92%;
+    .clear-history-btn,
+    .create-conversation-btn {
+      width: 90%;
+      margin-left: 0.1;
+      margin-right: auto;
     }
 
-    #nuevoChatInput{
-      width: 92%;
-      margin-top: 2%;
+
+    .nuevo-chat-input {
+      width: 90%;
+      margin-left: 0.1;
     }
   }
-
 </style>
 
 <!-- Botón hamburguesa solo visible en móvil -->
@@ -194,17 +191,36 @@
 <div id="menu" [class.show]="isMobileMenuOpen || !isMobile">
   <div id="logo">
     <h1 class="text-lg md:text-2xl font-bold">LKS</h1>
-    <p class="text-1x1 text-justify">Consultora tecnológica y de negocio que impulsa la transformación digital de empresas.</p>
+    <p class="text-1x1 text-justify">
+      Consultora tecnológica y de negocio que impulsa la transformación digital de empresas.
+    </p>
   </div>
+
   <h2 class="text">HISTORIAL DE CONVERSACIONES</h2>
   <hr class="barra" />
   <br />
+
   <ul>
-    <li *ngFor="let conv of conversations$ | async" (click)="openConversation(conv.id)" [class.selected]="conv.id === selectedChatId" class="conver">
+    <li
+      *ngFor="let conv of conversations$ | async"
+      (click)="openConversation(conv.id)"
+      [class.selected]="conv.id === selectedChatId"
+      class="conver"
+    >
       <button>{{ conv.title }}</button>
       <button (click)="deleteConversation(conv.id); $event.stopPropagation()">Borrar</button>
     </li>
   </ul>
-  <input id="nuevoChatInput" placeholder="Nuevo Chat" type="text" [(ngModel)]="newChatTitle" (keydown.enter)="createNewConversation()" class="nuevo-chat-input" />
+  <input
+      id="nuevoChatInput"
+      placeholder="Nuevo Chat"
+      type="text"
+      [(ngModel)]="newChatTitle"
+      (keydown.enter)="createNewConversation()"
+      class="nuevo-chat-input"
+    />
+  <button type="button" (click)="createNewConversation()" class="create-conversation-btn">
+    Añadir
+  </button>
   <button type="button" (click)="clearHistory()" class="clear-history-btn">Delete All</button>
 </div>
