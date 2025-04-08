@@ -62,10 +62,14 @@ export class SidebarComponent implements OnInit {
 
   deleteConversation(id: number): void {
     this.chatService.deleteConversation(id);
+
+    // 🔸 Aquí gestionamos la conversación seleccionada (porque el servicio no debe manejar UI)
     if (this.selectedChatId === id) {
       this.selectedChatId = null;
+      this.selectedConversation.emit([]); // 🔹 Vacía la conversación en pantalla
     }
   }
+
 
   clearHistory() {
     this.chatService.clearConversations();

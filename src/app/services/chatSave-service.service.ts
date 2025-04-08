@@ -99,8 +99,8 @@ export class ChatServiceHistorial implements OnDestroy {
 
   deleteConversation(id: number): void {
     this.conversations = this.conversations.filter(conv => conv.id !== id);
-    this.conversationsSubject.next(this.conversations);
-    location.reload();
+    this.updateConversations(); // 🔹 Usamos el método común para mantener todo actualizado
   }
+
 }
 
