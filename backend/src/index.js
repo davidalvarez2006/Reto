@@ -1,41 +1,70 @@
 import express from 'express';
+import { pool } from './db.js';
 import { config } from 'dotenv';
-import { pool } from './db.js'; // importar pool
+import cors from 'cors';
+
 config();
 
 const app = express();
-app.use(express.json()); // importante para poder leer JSON en POST
+app.use(express.json());
+app.use(cors());  // Habilitar CORS
 
-app.get('/', (req, res) => {
-  res.send('Hello Worlddd');
-});
-
-app.get('/ping', async (req, res) => {
+// Obtener todas las conversaciones
+app.get('/conversations', async (req, res) => {
   try {
-    const [rows] = await pool.query('SELECT NOW()');
+    const [rows] = await pool.query('SELECT * FROM conversaciones');
     res.json(rows);
   } catch (err) {
-    console.error('DB error:', err);
+    console.error('Error al obtener conversaciones:', err);
     res.status(500).json({ error: err.message });
   }
 });
 
-// Ruta para guardar un mensaje en la DB
-app.post('/mensaje', async (req, res) => {
-  const { msjUsuario, msjBot } = req.body;  // Aseguramos que tomas msjUsuario y msjBot
+// Agregar una conversación
+app.post('/conversations/add', async (req, res) => {
+  const { title, messages } = req.body;
+  try {
+    const [result] = await pool.query(
+      'INSERT INTO conversaciones (title, messages) VALUES (?, ?)',
+      [title, JSON.stringify(messages)]
+    );
+    res.json({ id: result.insertId, title, messages });
+  } catch (err) {
+    console.error('Error al guardar conversación:', err);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Actualizar una conversación
+app.put('/conversations/update/:id', async (req, res) => {
+  const { id } = req.params;
+  const { title, messages } = req.body;
   try {
     await pool.query(
-      'INSERT INTO mensajes (msjUsuario, msjBot) VALUES (?, ?)', // Reemplazar 'usuario' por 'msjUsuario'
-      [msjUsuario, msjBot]
+      'UPDATE conversaciones SET title = ?, messages = ? WHERE id = ?',
+      [title, JSON.stringify(messages), id]
     );
-    res.json({ ok: true, msg: 'Mensaje guardado' });
+    res.json({ message: 'Conversación actualizada' });
   } catch (err) {
-    console.error('Error insertando:', err);
+    console.error('Error al actualizar conversación:', err);
     res.status(500).json({ error: err.message });
   }
 });
 
+// Eliminar una conversación
+app.delete('/conversations/delete/:id', async (req, res) => {
+  const { id } = req.params;
+  try {
+    await pool.query('DELETE FROM conversaciones WHERE id = ?', [id]);
+    res.json({ message: 'Conversación eliminada' });
+  } catch (err) {
+    console.error('Error al eliminar conversación:', err);
+    res.status(500).json({ error: err.message });
+  }
+});
 
-app.listen(process.env.NODE_DOCKER_PORT, () =>
-  console.log('Server on port', process.env.NODE_DOCKER_PORT)
-);
+// Escuchar en el puerto definido
+const PORT = process.env.NODE_DOCKER_PORT || 3000;
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`✅ Servidor escuchando en http://localhost:${PORT}`);
+});

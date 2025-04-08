@@ -8,4 +8,6 @@ export const pool = createPool({
   password: process.env.MYSQLDB_ROOT_PASSWORD,
   database: process.env.MYSQLDB_DATABASE,
   port: process.env.MYSQLDB_DOCKER_PORT,
+  allowPublicKeyRetrieval: true,
+  ssl: false,
 });
