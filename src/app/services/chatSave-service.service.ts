@@ -113,14 +113,15 @@ export class ChatServiceHistorial {
    * Limpia todas las conversaciones.
    */
   clearConversations() {
-    this.conversations = [];
-    this.updateConversations();
+    this.conversations = []; // 🔹 Vacía el array de conversaciones
+    this.updateConversations(); // 🔹 Notifica el cambio a la interfaz
+    localStorage.removeItem('conversations'); // 🔹 Borra del localStorage
+    location.reload();
   }
 
-  /**
-   * Actualiza las conversaciones en el observador.
-   */
-  private updateConversations() {
-    this.conversationsSubject.next([...this.conversations]);
+  deleteConversation(id: number): void {
+    this.conversations = this.conversations.filter(conv => conv.id !== id);
+    this.updateConversations(); // 🔹 Usamos el método común para mantener todo actualizado
   }
+
 }
