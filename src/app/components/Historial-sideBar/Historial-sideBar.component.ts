@@ -1,10 +1,13 @@
 import { Component, Output, EventEmitter, OnInit, OnDestroy } from '@angular/core';
 import { ChatServiceHistorial, Conversation, Message } from '../../services/chatSave-service.service';
 import { Observable } from 'rxjs';
-import { FormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms'; // Necesario para ngModel
+import { CommonModule } from '@angular/common'; // Necesario para directivas como *ngIf y *ngFor
 
 @Component({
   selector: 'app-sidebar',
+  standalone: true,
+  imports: [FormsModule, CommonModule], // <-- Aquí van los módulos necesarios
   templateUrl: './Historial-sideBar.component.html',
   styleUrls: ['./Historial-sideBar.component.css'],
 })
@@ -49,6 +52,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
     this.isMobileMenuOpen = !this.isMobileMenuOpen;
   }
 
+  // Método createNewConversation actualizado
   createNewConversation() {
     if (this.newChatTitle.trim() !== '') {
       const maxLength = 15;  // Se recomienda hacerlo configurable si es posible
@@ -57,9 +61,16 @@ export class SidebarComponent implements OnInit, OnDestroy {
         : this.newChatTitle;
 
       const newMessages: Message[] = [];
-      const newId = this.chatService.addConversation(truncatedTitle, newMessages);
-      this.openConversation(newId);
-      this.newChatTitle = '';
+      this.chatService.addConversation(truncatedTitle, newMessages).subscribe({
+        next: (savedConversation) => {
+          // Abrimos la conversación con el ID asignado por el backend
+          this.openConversation(savedConversation.id);
+          this.newChatTitle = '';
+        },
+        error: (error) => {
+          console.error('Error al crear nueva conversación', error);
+        }
+      });
     } else {
       alert('Por favor, ingresa un título para la nueva conversación.');
     }

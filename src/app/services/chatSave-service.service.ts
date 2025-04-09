@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../enviroments/enviroment';
 
@@ -21,8 +21,8 @@ export class ChatServiceHistorial {
   private conversations: Conversation[] = [];
   private conversationsSubject = new BehaviorSubject<Conversation[]>([]);
   conversations$ = this.conversationsSubject.asObservable();
-  private nextId = 1;
-  private apiUrl = `${environment.apiUrl}/conversations`; // URL del backend
+
+  private apiUrl = environment.apiUrl;
 
   constructor(private http: HttpClient) {
     this.loadConversations();
@@ -40,18 +40,10 @@ export class ChatServiceHistorial {
     });
   }
 
-  addConversation(title: string, messages: Message[]): number {
+  // Modificado para devolver un Observable con la conversación guardada.
+  addConversation(title: string, messages: Message[]): Observable<Conversation> {
     const newConversation: Conversation = { id: 0, title, messages };
-    this.http.post<Conversation>(`${this.apiUrl}/add`, newConversation).subscribe({
-      next: (conversation) => {
-        this.conversations.push(conversation);
-        this.updateConversations();
-      },
-      error: (error) => {
-        console.error('Error al guardar la conversación', error);
-      }
-    });
-    return newConversation.id;
+    return this.http.post<Conversation>(`${this.apiUrl}/add`, newConversation);
   }
 
   addMessageToConversation(conversationId: number, message: Message) {
@@ -61,12 +53,12 @@ export class ChatServiceHistorial {
       this.http.put(`${this.apiUrl}/update/${conversationId}`, conversation).subscribe({
         next: (response) => {
           console.log('Mensaje actualizado en la base de datos', response);
+          this.updateConversations();
         },
         error: (error) => {
           console.error('Error al actualizar la conversación', error);
         }
       });
-      this.updateConversations();
     }
   }
 
@@ -87,7 +79,7 @@ export class ChatServiceHistorial {
     });
   }
 
-  clearConversations() {
+  clearConversations(): void {
     this.conversations = [];
     this.conversationsSubject.next(this.conversations);
     localStorage.removeItem('conversations');
