@@ -20,7 +20,8 @@ app.get('/conversations', async (req, res) => {
   }
 });
 
-// Agregar una conversación
+
+// Agregar conversacion
 app.post('/conversations/add', async (req, res) => {
   const { title, messages } = req.body;
   try {
@@ -35,7 +36,6 @@ app.post('/conversations/add', async (req, res) => {
   }
 });
 
-// Actualizar una conversación
 app.put('/conversations/update/:id', async (req, res) => {
   const { id } = req.params;
   const { title, messages } = req.body;

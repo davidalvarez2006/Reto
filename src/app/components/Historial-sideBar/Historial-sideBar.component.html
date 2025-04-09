@@ -181,46 +181,74 @@
     }
   }
 </style>
-
 <!-- Botón hamburguesa solo visible en móvil -->
-<button class="hamburger" (click)="toggleMobileMenu()" *ngIf="isMobile">
+<button class="hamburger" (click)="toggleMobileMenu()" *ngIf="isMobile" aria-label="Abrir menú">
   ☰ Historial de conversaciones
 </button>
 
 <!-- Menú lateral -->
-<div id="menu" [class.show]="isMobileMenuOpen || !isMobile">
-  <div id="logo">
+<div id="menu" [class.show]="isMobileMenuOpen || !isMobile" class="sidebar">
+  <div id="logo" class="sidebar-header">
     <h1 class="text-lg md:text-2xl font-bold">LKS</h1>
-    <p class="text-1x1 text-justify">
+    <p class="text-sm text-justify">
       Consultora tecnológica y de negocio que impulsa la transformación digital de empresas.
     </p>
   </div>
 
-  <h2 class="text">HISTORIAL DE CONVERSACIONES</h2>
+  <h2 class="sidebar-title">Historial de Conversaciones</h2>
   <hr class="barra" />
-  <br />
 
-  <ul>
+  <!-- Lista de conversaciones -->
+  <ul class="conversation-list">
     <li
       *ngFor="let conv of conversations$ | async"
       (click)="openConversation(conv.id)"
       [class.selected]="conv.id === selectedChatId"
-      class="conver"
+      class="conversation-item"
+      aria-label="Seleccionar conversación {{ conv.title }}"
     >
-      <button>{{ conv.title }}</button>
-      <button (click)="deleteConversation(conv.id); $event.stopPropagation()">Borrar</button>
+      <button class="conversation-title">{{ conv.title }}</button>
+      <button
+        class="delete-btn"
+        (click)="deleteConversation(conv.id); $event.stopPropagation()"
+        aria-label="Borrar conversación {{ conv.title }}"
+      >
+        Borrar
+      </button>
     </li>
   </ul>
-  <input
+
+  <!-- Campo de texto para crear una nueva conversación -->
+  <div class="new-chat">
+    <input
       id="nuevoChatInput"
       placeholder="Nuevo Chat"
       type="text"
       [(ngModel)]="newChatTitle"
       (keydown.enter)="createNewConversation()"
       class="nuevo-chat-input"
+      aria-label="Título de nueva conversación"
     />
-  <button type="button" (click)="createNewConversation()" class="create-conversation-btn">
-    Añadir
-  </button>
-  <button type="button" (click)="clearHistory()" class="clear-history-btn">Delete All</button>
+    <!-- Botón para crear una nueva conversación -->
+    <button
+      type="button"
+      (click)="createNewConversation()"
+      class="create-conversation-btn"
+      aria-label="Añadir nueva conversación"
+    >
+      Añadir
+    </button>
+  </div>
+
+  <!-- Botón para borrar todas las conversaciones -->
+  <div class="clear-history-btn-container">
+    <button
+      type="button"
+      (click)="clearHistory()"
+      class="clear-history-btn"
+      aria-label="Eliminar todas las conversaciones"
+    >
+      Eliminar Todo
+    </button>
+  </div>
 </div>

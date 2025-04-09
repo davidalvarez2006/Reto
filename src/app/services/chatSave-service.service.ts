@@ -22,13 +22,12 @@ export class ChatServiceHistorial {
   private conversationsSubject = new BehaviorSubject<Conversation[]>([]);
   conversations$ = this.conversationsSubject.asObservable();
   private nextId = 1;
-  private apiUrl = `${environment.apiUrl}/conversations`; // Asegúrate de que esta URL esté correcta
+  private apiUrl = `${environment.apiUrl}/conversations`; // URL del backend
 
   constructor(private http: HttpClient) {
-    this.loadConversations();  // Cargar las conversaciones desde la base de datos al inicializar
+    this.loadConversations();
   }
 
-  // Cargar todas las conversaciones de la base de datos
   private loadConversations() {
     this.http.get<Conversation[]>(this.apiUrl).subscribe({
       next: (conversations) => {
@@ -41,36 +40,24 @@ export class ChatServiceHistorial {
     });
   }
 
-  /**
-   * Crea una nueva conversación en la base de datos.
-   */
   addConversation(title: string, messages: Message[]): number {
-    const newConversation: Conversation = { id: this.nextId++, title, messages };
-    this.conversations.push(newConversation);
-
-    // Guardar en la base de datos
-    this.http.post(`${this.apiUrl}/add`, newConversation).subscribe({
-      next: (response) => {
-        console.log('Conversación guardada en la base de datos', response);
+    const newConversation: Conversation = { id: 0, title, messages };
+    this.http.post<Conversation>(`${this.apiUrl}/add`, newConversation).subscribe({
+      next: (conversation) => {
+        this.conversations.push(conversation);
+        this.updateConversations();
       },
       error: (error) => {
         console.error('Error al guardar la conversación', error);
       }
     });
-
-    this.updateConversations();
     return newConversation.id;
   }
 
-  /**
-   * Agrega un mensaje a una conversación existente en la base de datos.
-   */
   addMessageToConversation(conversationId: number, message: Message) {
     const conversation = this.conversations.find(c => c.id === conversationId);
     if (conversation) {
       conversation.messages.push(message);
-
-      // Actualizar la base de datos
       this.http.put(`${this.apiUrl}/update/${conversationId}`, conversation).subscribe({
         next: (response) => {
           console.log('Mensaje actualizado en la base de datos', response);
@@ -79,29 +66,20 @@ export class ChatServiceHistorial {
           console.error('Error al actualizar la conversación', error);
         }
       });
-
       this.updateConversations();
     }
   }
 
-  /**
-   * Obtiene una conversación específica por su ID.
-   */
   getConversationById(id: number): Conversation | undefined {
     return this.conversations.find(conversation => conversation.id === id);
   }
 
-  /**
-   * Elimina una conversación de la base de datos.
-   */
   deleteConversation(id: number): void {
     this.conversations = this.conversations.filter(conv => conv.id !== id);
     this.conversationsSubject.next(this.conversations);
-
-    // Eliminar conversación de la base de datos
     this.http.delete(`${this.apiUrl}/delete/${id}`).subscribe({
       next: (response) => {
-        console.log('Conversación eliminada de la base de datos', response);
+        console.log('Conversación eliminada', response);
       },
       error: (error) => {
         console.error('Error al eliminar la conversación', error);
@@ -109,19 +87,13 @@ export class ChatServiceHistorial {
     });
   }
 
-  /**
-   * Limpia todas las conversaciones.
-   */
   clearConversations() {
-    this.conversations = []; // 🔹 Vacía el array de conversaciones
-    this.updateConversations(); // 🔹 Notifica el cambio a la interfaz
-    localStorage.removeItem('conversations'); // 🔹 Borra del localStorage
-    location.reload();
+    this.conversations = [];
+    this.conversationsSubject.next(this.conversations);
+    localStorage.removeItem('conversations');
   }
 
-  deleteConversation(id: number): void {
-    this.conversations = this.conversations.filter(conv => conv.id !== id);
-    this.updateConversations(); // 🔹 Usamos el método común para mantener todo actualizado
+  private updateConversations() {
+    this.conversationsSubject.next(this.conversations);
   }
-
 }
