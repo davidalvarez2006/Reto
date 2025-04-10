@@ -88,4 +88,8 @@ export class SidebarComponent implements OnInit, OnDestroy {
     this.chatService.clearConversations();
     this.selectedChatId = null;
   }
+
+
+
+
 }

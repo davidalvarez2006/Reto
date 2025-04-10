@@ -63,7 +63,13 @@ export class ChatServiceHistorial {
   addMessageToConversation(conversationId: number, message: Message) {
     const conversation = this.conversations.find(c => c.id === conversationId);
     if (conversation) {
-      conversation.messages.push(message);
+      // Verifica si ya existe un mensaje idéntico (por texto y tipo) para evitar duplicados
+      const exists = conversation.messages.some(
+        m => m.texto === message.texto && m.tipo === message.tipo
+      );
+      if (!exists) {
+        conversation.messages.push(message);
+      }
       this.http.put(`${this.apiUrl}/update/${conversationId}`, conversation).subscribe({
         next: (response) => {
           console.log('Mensaje actualizado en la base de datos', response);
@@ -75,6 +81,7 @@ export class ChatServiceHistorial {
       });
     }
   }
+
 
   getConversationById(id: number): Conversation | undefined {
     return this.conversations.find(conversation => conversation.id === id);
@@ -94,10 +101,21 @@ export class ChatServiceHistorial {
   }
 
   clearConversations(): void {
-    this.conversations = [];
-    this.conversationsSubject.next(this.conversations);
-    localStorage.removeItem('conversations');
+    this.http.delete(this.apiUrl)  // NO concatenes otra "/conversations"
+      .subscribe({
+        next: () => {
+          this.conversations = [];
+          this.conversationsSubject.next(this.conversations);
+          console.log('Todas las conversaciones han sido eliminadas del backend');
+        },
+        error: (err) => {
+          console.error('Error al eliminar todas las conversaciones', err);
+        }
+      });
   }
+
+
+
 
   private updateConversations() {
     this.conversationsSubject.next(this.conversations);

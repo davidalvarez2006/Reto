@@ -51,17 +51,19 @@ app.put('/conversations/update/:id', async (req, res) => {
   }
 });
 
-// Eliminar una conversación
-app.delete('/conversations/delete/:id', async (req, res) => {
-  const { id } = req.params;
+
+// Eliminar todas las conversaciones
+app.delete('/conversations', async (req, res) => {
   try {
-    await pool.query('DELETE FROM conversaciones WHERE id = ?', [id]);
-    res.json({ message: 'Conversación eliminada' });
+    await pool.query('DELETE FROM conversaciones');
+    res.json({ message: 'Todas las conversaciones han sido eliminadas' });
   } catch (err) {
-    console.error('Error al eliminar conversación:', err);
+    console.error('Error al eliminar todas las conversaciones:', err);
     res.status(500).json({ error: err.message });
   }
 });
+
+
 
 // Escuchar en el puerto definido
 const PORT = process.env.NODE_DOCKER_PORT || 3000;
