@@ -7,6 +7,7 @@ config();
 
 const app = express();
 app.use(express.json());
+
 app.use(cors());  // Habilitar CORS
 
 // Obtener todas las conversaciones
@@ -51,17 +52,19 @@ app.put('/conversations/update/:id', async (req, res) => {
   }
 });
 
-
-// Eliminar todas las conversaciones
-app.delete('/conversations', async (req, res) => {
+// Eliminar una conversación por ID
+app.delete('/conversations/delete/:id', async (req, res) => {
+  const { id } = req.params;
   try {
-    await pool.query('DELETE FROM conversaciones');
-    res.json({ message: 'Todas las conversaciones han sido eliminadas' });
+    await pool.query('DELETE FROM conversaciones WHERE id = ?', [id]);
+    res.json({ message: 'Conversación eliminada' });
   } catch (err) {
-    console.error('Error al eliminar todas las conversaciones:', err);
+    console.error('Error al eliminar conversación:', err);
     res.status(500).json({ error: err.message });
   }
 });
+
+
 
 
 
