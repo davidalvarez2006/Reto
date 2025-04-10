@@ -1,72 +1,79 @@
-  :host {
-    display: block;
-  }
+/* Asegura que el componente se renderice como bloque */
+:host {
+  display: block;
+}
 
+/* Estilos del contenedor del footer */
+.footer {
+  position: fixed;
+  bottom: 2em;
+  left: 35em;
+  width: 45%;
+  background-color: #ff5c04;
+  color: white;
+  text-align: center;
+  padding: 20px;
+  border-radius: 1.5em;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1em;
+}
+
+/* Estilos del input de texto */
+#textBox {
+  width: 25em;
+  padding: 10px;
+  border-radius: 1em;
+  border: 1px solid white;
+  background-color: transparent;
+  color: white;
+}
+
+/* Placeholder del input más legible en fondo oscuro */
+#textBox::placeholder {
+  color: white;
+  opacity: 0.7;
+}
+
+/* Estilos del botón de enviar */
+#boton {
+  width: 12em;
+  height: 3em;
+  background-image: url('/assets/images/boton.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  border: none;
+  border-radius: 1em;
+  cursor: pointer;
+
+  color: white;
+  font-weight: bold;
+  font-size: 1em;
+  text-align: center;
+}
+
+/* Adaptaciones responsivas para móviles */
+@media (max-width: 768px) {
   .footer {
-    position: fixed;
-    bottom: 2em;
-    left: 35em;
-    width: 45%;
-    background-color: #ff5c04;
-    color: white;
-    text-align: center;
-    padding: 20px;
-    border-radius: 1.5em;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 1em;
+    bottom: 1em;
+    left: 0;
+    width: 100%;
+    padding: 10px;
+    border-radius: 0;
+    flex-direction: row;
   }
 
   #textBox {
-    border-radius: 1em;
-    width: 25em;
-    padding: 10px;
-    border: 1px solid white;
-    background-color: transparent;
-    color: white;
-  }
-
-  #textBox::placeholder {
-    color: white;
-    opacity: 0.7;
+    width: 70%;
   }
 
   #boton {
-    width: 12em;
-    height: 3em;
-    background-image: url('/assets/images/boton.png');
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center;
-    border-radius: 1em;
-    border: none;
-    color: white;
-    font-weight: bold;
-    cursor: pointer;
-    text-align: center;
-    font-size: 1em;
+    width: 6em;
+    height: 2.5em;
+    margin-left: 0.5em;
+    font-size: 0.9em;
   }
-
-  @media (max-width: 768px) {
-    .footer {
-      bottom: 1em;
-      left: 0;
-      width: 100%;
-      border-radius: 0;
-      padding: 10px;
-      flex-direction: row;
-    }
-
-    #textBox {
-      width: 70%;
-    }
-
-    #boton {
-      width: 6em;
-      height: 2.5em;
-      margin-left: 0.5em;
-      font-size: 0.9em;
-    }
-  }
-
+}

@@ -1,3 +1,4 @@
+/* Fuente principal para todo el proyecto */
 :root {
   font-family: 'Inter', sans-serif;
 }
@@ -8,6 +9,7 @@
   }
 }
 
+/* Menú lateral (sidebar) */
 #menu {
   display: flex;
   flex-direction: column;
@@ -27,30 +29,33 @@
   transform: translateX(16rem);
 }
 
+/* Logo y descripción */
 #logo {
   padding: 1rem 1.5rem;
 }
 
-.text {
-  margin-left: 1.75em;
-  margin-right: 1.75em;
-  text-align: center;
-  color: white;
-}
-
+/* Línea separadora */
 .barra {
-  margin-left: 1.75em;
-  width: 12.5em;
+  margin: 0 auto;
+  width: 80%;
 }
 
+/* Centrar título de historial */
+.sidebar-title {
+  text-align: center;
+  font-weight: bold;
+  margin-top: 1em;
+}
+
+/* Lista de conversaciones */
 ul {
   flex-grow: 1;
   overflow-y: auto;
-  padding-left: 1.5em;
-  padding-right: 1em;
+  padding: 0 1em;
 }
 
-.conver {
+/* Ítems de conversación */
+.conversation-item {
   margin-bottom: 0.2em;
   display: flex;
   justify-content: space-between;
@@ -61,40 +66,54 @@ ul {
   background-color: #ff6c1f;
 }
 
-.conver:hover {
+.conversation-item:hover {
   background-color: white;
   color: black;
 }
 
-.conver button {
+.conversation-title {
   background: none;
   border: none;
   font-size: 1rem;
-  cursor: pointer;
-}
-
-.conver button:first-child {
   font-weight: bold;
+  cursor: pointer;
   margin-right: 1em;
 }
 
-.conver button:last-child {
+.delete-btn {
   background-color: #ff3b3b;
   color: white;
   border-radius: 0.5em;
   padding: 0.3em 0.6em;
+  border: none;
+  cursor: pointer;
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-.conver button:last-child:hover {
+.delete-btn:hover {
   background-color: black;
   color: red;
 }
 
-.clear-history-btn,
-.create-conversation-btn{
-  margin-left: 1.75em;
-  margin-right: 1.5em;
+/* Input para nuevo chat */
+.nuevo-chat-input {
+  width: 80%; /* Aseguramos que sea más estrecho para que se pueda centrar */
+  max-width: 25em; /* Límite máximo de ancho */
+  height: 3em;
+  border-radius: 1em;
+  padding-left: 0.5em;
+  padding: 10px;
+  margin: 0 auto 0.4em; /* Auto margen para centrar */
+  border: 1px solid #ccc;
+  margin-left: 1.5em;
+
+}
+
+/* Botón de crear conversación */
+.create-conversation-btn {
+  width: 80%; /* Aseguramos que sea más estrecho para que se pueda centrar */
+  max-width: 25em; /* Límite máximo de ancho */
+  margin: 0 auto;
   padding: 0.5em;
   background-color: #ff3b3b;
   color: white;
@@ -104,32 +123,22 @@ ul {
   transition: background-color 0.3s ease, color 0.3s ease;
   border: none;
   margin-bottom: 0.5em;
-  margin-top: 0.4em;
+  margin-left: 1.5em;
 }
 
-.clear-history-btn:hover,
 .create-conversation-btn:hover {
   background-color: white;
   color: black;
 }
 
-.nuevo-chat-input {
-  width: 13em;
-  height: 3em;
-  border-radius: 1em;
-  padding-left: 0.5em;
-  padding: 10px;
-  margin-left: 1.5em;
-  margin-bottom: 0.4em;
-  border: 1px solid #ccc;
-}
-
+/* Conversación seleccionada */
 .selected {
   background-color: red;
   color: white;
   font-weight: bold;
 }
 
+/* ----------- RESPONSIVE (MÓVIL) ----------- */
 @media (max-width: 768px) {
   #menu {
     position: absolute;
@@ -164,18 +173,43 @@ ul {
 
   .barra {
     width: 90%;
+    margin: 0 auto; /* Centrar la barra */
   }
 
-  .clear-history-btn,
+  /* Ajustar el ancho y centrado de los elementos */
+  .nuevo-chat-input,
   .create-conversation-btn {
-    width: 90%;
-    margin-left: 0.1;
-    margin-right: auto;
+    width: 80%; /* Mantener centrado */
+    max-width: 40em; /* Límite máximo para evitar que se agranden demasiado */
+    margin-left: 3em; /* Centrado total */
   }
 
+  /* Centrar el contenido dentro de la sidebar */
+  .sidebar-title {
+    text-align: center;
+    font-size: 1.1em; /* Tamaño de fuente un poco mayor para visibilidad */
+  }
 
-  .nuevo-chat-input {
-    width: 90%;
-    margin-left: 0.1;
+  /* Asegurar que la lista de conversaciones esté centrada */
+  ul {
+    padding: 0 1em;
+    text-align: center; /* Centrado de los elementos de la lista */
+  }
+
+  /* Centrar los ítems de conversación */
+  .conversation-item {
+    justify-content: center; /* Centrar los elementos dentro de cada ítem */
+  }
+
+  /* Centrar los botones */
+  .delete-btn, .conversation-title {
+    display: inline-block;
+    margin: 0 auto;
+  }
+
+  /* Aseguramos que los elementos del sidebar estén correctamente alineados */
+  #logo {
+    text-align: center;
+    width: 100%;
   }
 }

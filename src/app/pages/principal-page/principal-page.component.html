@@ -1,3 +1,15 @@
-<app-sidebar (selectedConversation)="actualizarConversacion($event)"></app-sidebar>
-<app-chat-historial [mensajes]="mensajesGuardados"></app-chat-historial>
-<app-chat-textbar [activeConversationId]="activeConversationId" (mensajeOutput)="recibirMensaje($event)"></app-chat-textbar>
+<!-- Barra lateral con el menú de conversaciones -->
+<app-sidebar (selectedConversation)="actualizarConversacion($event)">
+</app-sidebar>
+
+<!-- Muestra el historial de mensajes de la conversación activa -->
+<app-chat-historial [mensajes]="mensajesGuardados">
+</app-chat-historial>
+
+<!-- Barra de entrada de texto para enviar mensajes a la conversación activa -->
+<app-chat-textbar
+  [activeConversationId]="activeConversationId"
+  (mensajeOutput)="recibirMensaje($event)">
+  <!-- Esta propiedad pasa el ID de la conversación activa al componente de la barra de texto para identificar en qué conversación estamos -->
+  <!-- El evento 'mensajeOutput' emite el mensaje que se ingresa en la barra de texto para que el componente padre lo reciba y lo maneje -->
+</app-chat-textbar>

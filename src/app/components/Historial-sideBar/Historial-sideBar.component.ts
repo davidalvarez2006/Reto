@@ -1,5 +1,15 @@
-import { Component, Output, EventEmitter, OnInit, OnDestroy } from '@angular/core';
-import { ChatServiceHistorial, Conversation, Message } from '../../services/chatSave-service.service';
+import {
+  Component,
+  Output,
+  EventEmitter,
+  OnInit,
+  OnDestroy
+} from '@angular/core';
+import {
+  ChatServiceHistorial,
+  Conversation,
+  Message
+} from '../../services/chatSave-service.service';
 import { Observable } from 'rxjs';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -12,60 +22,93 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./Historial-sideBar.component.css'],
 })
 export class SidebarComponent implements OnInit, OnDestroy {
+
+  /** Título ingresado por el usuario para nueva conversación */
   newChatTitle: string = '';
+
+  /** Observable de la lista de conversaciones */
   conversations$: Observable<Conversation[]>;
+
+  /** ID de la conversación seleccionada */
   selectedChatId: number | null = null;
+
+  /** Controla visibilidad del menú en dispositivos móviles */
   isMobileMenuOpen: boolean = false;
+
+  /** Indica si se está usando una pantalla de móvil */
   isMobile: boolean = false;
 
-  // Se emite un objeto con el id y los mensajes de la conversación
-  @Output() selectedConversation = new EventEmitter<{ id: number, mensajes: { texto: string; tipo: 'usuario' | 'bot' }[] }>();
+  /** Emisor para enviar la conversación seleccionada (ID y mensajes) al componente padre */
+  @Output() selectedConversation = new EventEmitter<{
+    id: number,
+    mensajes: { texto: string; tipo: 'usuario' | 'bot' }[]
+  }>();
 
   constructor(private chatService: ChatServiceHistorial) {
+    // Se enlaza el observable de conversaciones del servicio
     this.conversations$ = this.chatService.conversations$;
   }
 
-  ngOnInit() {
+  /** Inicialización: detecta si está en móvil y escucha cambios de tamaño */
+  ngOnInit(): void {
     this.checkIfMobile();
     window.addEventListener('resize', this.checkIfMobile);
   }
 
-  ngOnDestroy() {
+  /** Limpieza: remueve listener de redimensionamiento */
+  ngOnDestroy(): void {
     window.removeEventListener('resize', this.checkIfMobile);
   }
 
-  checkIfMobile = () => {
+  /** Verifica si la pantalla es móvil y actualiza `isMobile` */
+  checkIfMobile = (): void => {
     this.isMobile = window.innerWidth <= 768;
   };
 
-  openConversation(id: number) {
+  /** Abre una conversación existente por ID */
+  openConversation(id: number): void {
     this.selectedChatId = id;
     const conversation = this.chatService.getConversationById(id);
+
     if (conversation) {
-      // Emitir tanto el id como los mensajes
-      this.selectedConversation.emit({ id: conversation.id, mensajes: conversation.messages });
+      // Emitir el ID y los mensajes al componente padre
+      this.selectedConversation.emit({
+        id: conversation.id,
+        mensajes: conversation.messages
+      });
     } else {
-      console.error('Conversation not found for id: ', id);
+      console.error('Conversation not found for id:', id);
     }
+
+    // En móvil, cerrar el menú al seleccionar conversación
     this.isMobileMenuOpen = false;
   }
 
-  toggleMobileMenu() {
+  /** Muestra u oculta el menú lateral en móviles */
+  toggleMobileMenu(): void {
     this.isMobileMenuOpen = !this.isMobileMenuOpen;
   }
 
-  createNewConversation() {
-    if (this.newChatTitle.trim() !== '') {
+  /** Crea una nueva conversación si el input no está vacío */
+  createNewConversation(): void {
+    const title = this.newChatTitle.trim();
+
+    if (title !== '') {
       const maxLength = 15;
-      const truncatedTitle = this.newChatTitle.length > maxLength
-        ? this.newChatTitle.substring(0, maxLength) + '...'
-        : this.newChatTitle;
+
+      // Truncar título si excede el máximo
+      const truncatedTitle = title.length > maxLength
+        ? title.substring(0, maxLength) + '...'
+        : title;
+
       const newMessages: Message[] = [];
+
+      // Agregar conversación a través del servicio
       this.chatService.addConversation(truncatedTitle, newMessages).subscribe({
         next: (savedConversation) => {
-          this.chatService.fetchConversations();
-          this.openConversation(savedConversation.id);
-          this.newChatTitle = '';
+          this.chatService.fetchConversations(); // Actualiza la lista
+          this.openConversation(savedConversation.id); // Abre la nueva
+          this.newChatTitle = ''; // Limpia input
         },
         error: (error) => {
           console.error('Error al crear nueva conversación', error);
@@ -76,20 +119,20 @@ export class SidebarComponent implements OnInit, OnDestroy {
     }
   }
 
+  /** Elimina una conversación por ID */
   deleteConversation(id: number): void {
     this.chatService.deleteConversation(id);
+
+    // Si la conversación eliminada estaba seleccionada, limpiar estado
     if (this.selectedChatId === id) {
       this.selectedChatId = null;
       this.selectedConversation.emit({ id: 0, mensajes: [] });
     }
   }
 
-  clearHistory() {
+  /** Limpia todo el historial de conversaciones */
+  clearHistory(): void {
     this.chatService.clearConversations();
     this.selectedChatId = null;
   }
-
-
-
-
 }

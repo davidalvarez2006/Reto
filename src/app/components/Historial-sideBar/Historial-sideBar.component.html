@@ -1,10 +1,20 @@
-<!-- Botón hamburguesa solo visible en móvil -->
-<button class="hamburger" (click)="toggleMobileMenu()" *ngIf="isMobile" [attr.aria-label]="'Abrir menú'">
+<!-- Botón hamburguesa: solo visible en móviles -->
+<!-- Muestra u oculta el menú lateral -->
+<button class="hamburger"
+        (click)="toggleMobileMenu()"
+        *ngIf="isMobile"
+        [attr.aria-label]="'Abrir menú'">
   ☰ Historial de conversaciones
 </button>
 
-<!-- Menú lateral -->
-<div id="menu" [class.show]="isMobileMenuOpen || !isMobile" class="sidebar">
+<!-- Menú lateral (sidebar) -->
+<!-- En móvil se oculta y aparece si isMobileMenuOpen es true -->
+<!-- En escritorio siempre está visible -->
+<div id="menu"
+     [class.show]="isMobileMenuOpen || !isMobile"
+     class="sidebar">
+
+  <!-- Logo y descripción de la empresa -->
   <div id="logo" class="sidebar-header">
     <h1 class="text-lg md:text-2xl font-bold">LKS</h1>
     <p class="text-sm text-justify">
@@ -12,17 +22,24 @@
     </p>
   </div>
 
+  <!-- Título de sección -->
   <h2 class="sidebar-title">Historial de Conversaciones</h2>
   <hr class="barra" />
 
-  <!-- Lista de conversaciones -->
+  <!-- Lista de conversaciones existentes -->
   <ul class="conversation-list">
     <li *ngFor="let conv of conversations$ | async"
         (click)="openConversation(conv.id)"
         [class.selected]="conv.id === selectedChatId"
         class="conversation-item"
         [attr.aria-label]="'Seleccionar conversación ' + conv.title">
-      <button class="conversation-title">{{ conv.title }}</button>
+
+      <!-- Título de la conversación -->
+      <button class="conversation-title">
+        {{ conv.title }}
+      </button>
+
+      <!-- Botón para borrar conversación -->
       <button class="delete-btn"
               (click)="deleteConversation(conv.id); $event.stopPropagation()"
               [attr.aria-label]="'Borrar conversación ' + conv.title">
@@ -31,13 +48,22 @@
     </li>
   </ul>
 
-  <!-- Campo de texto para crear una nueva conversación -->
+  <!-- Sección para crear nueva conversación -->
   <div class="new-chat">
-    <input id="nuevoChatInput" placeholder="Nuevo Chat" type="text"
-           [(ngModel)]="newChatTitle" (keydown.enter)="createNewConversation()"
-           class="nuevo-chat-input" [attr.aria-label]="'Título de nueva conversación'" />
-    <button type="button" (click)="createNewConversation()"
-            class="create-conversation-btn" [attr.aria-label]="'Añadir nueva conversación'">
+    <!-- Campo de texto para introducir el nombre del nuevo chat -->
+    <input id="nuevoChatInput"
+           placeholder="Nuevo Chat"
+           type="text"
+           [(ngModel)]="newChatTitle"
+           (keydown.enter)="createNewConversation()"
+           class="nuevo-chat-input"
+           [attr.aria-label]="'Título de nueva conversación'" />
+
+    <!-- Botón para crear nueva conversación -->
+    <button type="button"
+            (click)="createNewConversation()"
+            class="create-conversation-btn"
+            [attr.aria-label]="'Añadir nueva conversación'">
       Añadir
     </button>
   </div>

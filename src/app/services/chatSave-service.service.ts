@@ -3,11 +3,13 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../enviroments/enviroment';
 
+// Definimos la interfaz para el mensaje
 export interface Message {
   texto: string;
   tipo: 'usuario' | 'bot';
 }
 
+// Definimos la interfaz para la conversación
 export interface Conversation {
   id: number;
   title: string;
@@ -22,18 +24,20 @@ export class ChatServiceHistorial {
   private conversationsSubject = new BehaviorSubject<Conversation[]>([]);
   conversations$ = this.conversationsSubject.asObservable();
 
-  private apiUrl = environment.apiUrl;
+  private apiUrl = environment.apiUrl; // URL base del API
 
   constructor(private http: HttpClient) {
-    this.loadConversations();
+    this.loadConversations(); // Carga inicial de conversaciones
   }
 
-  // Se llama en el constructor para obtener la lista inicial de conversaciones
-  private loadConversations() {
+  /**
+   * Método para cargar las conversaciones desde el backend
+   */
+  private loadConversations(): void {
     this.http.get<Conversation[]>(this.apiUrl).subscribe({
       next: (conversations) => {
         this.conversations = conversations;
-        this.conversationsSubject.next(this.conversations);
+        this.conversationsSubject.next(this.conversations); // Actualiza el estado de las conversaciones
       },
       error: (error) => {
         console.error('Error al cargar las conversaciones', error);
@@ -41,7 +45,9 @@ export class ChatServiceHistorial {
     });
   }
 
-  // <-- Nuevo método para recargar las conversaciones desde el backend
+  /**
+   * Método para recargar las conversaciones desde el backend
+   */
   public fetchConversations(): void {
     this.http.get<Conversation[]>(this.apiUrl).subscribe({
       next: (conversations) => {
@@ -54,21 +60,32 @@ export class ChatServiceHistorial {
     });
   }
 
-  // Modificado para devolver un Observable con la conversación guardada.
+  /**
+   * Agrega una nueva conversación
+   * @param title - Título de la nueva conversación
+   * @param messages - Mensajes iniciales de la conversación
+   * @returns Un Observable con la nueva conversación añadida
+   */
   addConversation(title: string, messages: Message[]): Observable<Conversation> {
     const newConversation: Conversation = { id: 0, title, messages };
     return this.http.post<Conversation>(`${this.apiUrl}/add`, newConversation);
   }
 
-  addMessageToConversation(conversationId: number, message: Message) {
+  /**
+   * Agrega un mensaje a una conversación existente
+   * @param conversationId - ID de la conversación a la que agregar el mensaje
+   * @param message - Mensaje a agregar
+   */
+  addMessageToConversation(conversationId: number, message: Message): void {
     const conversation = this.conversations.find(c => c.id === conversationId);
     if (conversation) {
-      conversation.messages.push(message);
+      conversation.messages.push(message); // Agrega el mensaje a la conversación
 
+      // Actualiza la conversación en el backend
       this.http.put(`${this.apiUrl}/update/${conversationId}`, conversation).subscribe({
         next: (response) => {
           console.log('Mensaje actualizado en la base de datos', response);
-          this.updateConversations();
+          this.updateConversations(); // Actualiza el estado de las conversaciones
         },
         error: (error) => {
           console.error('Error al actualizar la conversación', error);
@@ -77,15 +94,24 @@ export class ChatServiceHistorial {
     }
   }
 
-
-
+  /**
+   * Obtiene una conversación por su ID
+   * @param id - ID de la conversación
+   * @returns La conversación correspondiente o undefined si no existe
+   */
   getConversationById(id: number): Conversation | undefined {
     return this.conversations.find(conversation => conversation.id === id);
   }
 
+  /**
+   * Elimina una conversación por su ID
+   * @param id - ID de la conversación a eliminar
+   */
   deleteConversation(id: number): void {
     this.conversations = this.conversations.filter(conv => conv.id !== id);
-    this.conversationsSubject.next(this.conversations);
+    this.conversationsSubject.next(this.conversations); // Actualiza el estado
+
+    // Elimina la conversación en el backend
     this.http.delete(`${this.apiUrl}/delete/${id}`).subscribe({
       next: (response) => {
         console.log('Conversación eliminada', response);
@@ -96,12 +122,15 @@ export class ChatServiceHistorial {
     });
   }
 
+  /**
+   * Elimina todas las conversaciones
+   */
   clearConversations(): void {
-    this.http.delete(this.apiUrl)  // NO concatenes otra "/conversations"
+    this.http.delete(this.apiUrl) // Elimina todas las conversaciones desde el backend
       .subscribe({
         next: () => {
           this.conversations = [];
-          this.conversationsSubject.next(this.conversations);
+          this.conversationsSubject.next(this.conversations); // Actualiza el estado local
           console.log('Todas las conversaciones han sido eliminadas del backend');
         },
         error: (err) => {
@@ -110,10 +139,8 @@ export class ChatServiceHistorial {
       });
   }
 
-
-
-
-  private updateConversations() {
+  // Actualiza el estado de las conversaciones (emitido a través del BehaviorSubject)
+  private updateConversations(): void {
     this.conversationsSubject.next(this.conversations);
   }
 }

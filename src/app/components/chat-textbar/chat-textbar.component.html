@@ -1,5 +1,21 @@
+<!-- Contenedor del footer con input y botón para enviar mensajes -->
 <div class="footer">
-  <input type="text" id="textBox" #inputPregunta placeholder="Introduce tu pregunta"
-         (keydown.enter)="enviarMensaje(inputPregunta.value)" />
-  <button id="boton" (click)="enviarMensaje(inputPregunta.value)"></button>
+
+  <!-- Input para que el usuario introduzca su pregunta.
+       Al presionar "Enter", se llama al método enviarMensaje con el valor del input. -->
+  <input
+    type="text"
+    id="textBox"
+    #inputPregunta
+    placeholder="Introduce tu pregunta"
+    (keydown.enter)="enviarMensaje(inputPregunta.value)"
+  />
+
+  <!-- Botón que al hacer click también llama a enviarMensaje con el valor del input.
+       El texto o ícono puede definirse vía CSS (por ejemplo, con una imagen de fondo). -->
+  <button
+    id="boton"
+    (click)="enviarMensaje(inputPregunta.value)">
+  </button>
+
 </div>

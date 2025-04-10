@@ -1,7 +1,9 @@
+/* Host: Define el contenedor como bloque */
 :host {
   display: block;
 }
 
+/* Contenedor principal del chat */
 .chat-container {
   position: fixed;
   left: 17em;
@@ -12,6 +14,7 @@
   justify-content: center;
 }
 
+/* Caja de chat donde se muestran los mensajes */
 .chat-box {
   width: 100%;
   background-color: white;
@@ -24,12 +27,14 @@
   height: 79vh;
 }
 
+/* Estilo para el título del chat */
 h2 {
   font-size: 24px;
   font-weight: bold;
   margin-bottom: 10px;
 }
 
+/* Área de mensajes dentro del chat */
 .message-area {
   flex-grow: 1;
   overflow-y: auto;
@@ -42,6 +47,7 @@ h2 {
   scroll-behavior: smooth;
 }
 
+/* Estilo para los mensajes del bot alineados a la izquierda */
 .message-left {
   align-self: flex-start;
   background-color: #e5e5ea;
@@ -51,10 +57,11 @@ h2 {
   margin: 5px 0;
   max-width: 70%;
   overflow-wrap: break-word;
-  white-space: pre-line; /* Esto hace que los saltos de línea (\n) se respeten */
-  word-break: break-word; /* Opcional: para romper palabras largas si fuera necesario */
+  white-space: pre-line; /* Respeta los saltos de línea (\n) */
+  word-break: break-word; /* Rompe palabras largas si es necesario */
 }
 
+/* Estilo para los mensajes del usuario alineados a la derecha */
 .message-right {
   align-self: flex-end;
   background-color: #0078ff;
@@ -64,26 +71,29 @@ h2 {
   margin: 5px 0;
   max-width: 70%;
   overflow-wrap: break-word;
-  white-space: pre-line; /* Esto hace que los saltos de línea (\n) se respeten */
-  word-break: break-word; /* Opcional: para romper palabras largas si fuera necesario */
+  white-space: pre-line; /* Respeta los saltos de línea (\n) */
+  word-break: break-word; /* Rompe palabras largas si es necesario */
 }
 
+/* Estilos responsivos para pantallas pequeñas */
 @media (max-width: 768px) {
   .chat-container {
     position: relative;
     left: 0;
     width: 100%;
-    height: calc(100vh - 10em);
+    height: calc(100vh - 10em); /* Ajuste para el alto del contenedor */
     top: 0;
     padding-top: 1rem;
-    margin-bottom: 6rem;
+    margin-bottom: 6rem; /* Espacio extra en la parte inferior */
   }
 
+  /* Ajuste de la caja de chat en móviles */
   .chat-box {
     height: 100%;
   }
 
+  /* Ajuste de la altura máxima del área de mensajes */
   .message-area {
-    max-height: calc(100vh - 18em);
+    max-height: calc(100vh - 18em); /* Se calcula según la altura disponible */
   }
 }
