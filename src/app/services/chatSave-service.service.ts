@@ -122,11 +122,6 @@ export class ChatServiceHistorial {
     });
   }
 
-  /**
-   * Elimina todas las conversaciones
-   */
-  
-
   // Actualiza el estado de las conversaciones (emitido a través del BehaviorSubject)
   private updateConversations(): void {
     this.conversationsSubject.next(this.conversations);
