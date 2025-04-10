@@ -63,13 +63,8 @@ export class ChatServiceHistorial {
   addMessageToConversation(conversationId: number, message: Message) {
     const conversation = this.conversations.find(c => c.id === conversationId);
     if (conversation) {
-      // Verifica si ya existe un mensaje idéntico (por texto y tipo) para evitar duplicados
-      const exists = conversation.messages.some(
-        m => m.texto === message.texto && m.tipo === message.tipo
-      );
-      if (!exists) {
-        conversation.messages.push(message);
-      }
+      conversation.messages.push(message);
+
       this.http.put(`${this.apiUrl}/update/${conversationId}`, conversation).subscribe({
         next: (response) => {
           console.log('Mensaje actualizado en la base de datos', response);
@@ -81,6 +76,7 @@ export class ChatServiceHistorial {
       });
     }
   }
+
 
 
   getConversationById(id: number): Conversation | undefined {
