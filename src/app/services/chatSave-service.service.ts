@@ -125,19 +125,7 @@ export class ChatServiceHistorial {
   /**
    * Elimina todas las conversaciones
    */
-  clearConversations(): void {
-    this.http.delete(this.apiUrl) // Elimina todas las conversaciones desde el backend
-      .subscribe({
-        next: () => {
-          this.conversations = [];
-          this.conversationsSubject.next(this.conversations); // Actualiza el estado local
-          console.log('Todas las conversaciones han sido eliminadas del backend');
-        },
-        error: (err) => {
-          console.error('Error al eliminar todas las conversaciones', err);
-        }
-      });
-  }
+  
 
   // Actualiza el estado de las conversaciones (emitido a través del BehaviorSubject)
   private updateConversations(): void {

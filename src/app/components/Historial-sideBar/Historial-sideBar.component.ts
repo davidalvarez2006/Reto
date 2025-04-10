@@ -130,9 +130,4 @@ export class SidebarComponent implements OnInit, OnDestroy {
     }
   }
 
-  /** Limpia todo el historial de conversaciones */
-  clearHistory(): void {
-    this.chatService.clearConversations();
-    this.selectedChatId = null;
-  }
 }
