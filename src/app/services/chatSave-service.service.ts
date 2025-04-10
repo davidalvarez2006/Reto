@@ -28,6 +28,7 @@ export class ChatServiceHistorial {
     this.loadConversations();
   }
 
+  // Se llama en el constructor para obtener la lista inicial de conversaciones
   private loadConversations() {
     this.http.get<Conversation[]>(this.apiUrl).subscribe({
       next: (conversations) => {
@@ -36,6 +37,19 @@ export class ChatServiceHistorial {
       },
       error: (error) => {
         console.error('Error al cargar las conversaciones', error);
+      }
+    });
+  }
+
+  // <-- Nuevo método para recargar las conversaciones desde el backend
+  public fetchConversations(): void {
+    this.http.get<Conversation[]>(this.apiUrl).subscribe({
+      next: (conversations) => {
+        this.conversations = conversations;
+        this.conversationsSubject.next(this.conversations);
+      },
+      error: (error) => {
+        console.error('Error al recargar las conversaciones', error);
       }
     });
   }

@@ -51,6 +51,8 @@ h2 {
   margin: 5px 0;
   max-width: 70%;
   overflow-wrap: break-word;
+  white-space: pre-line; /* Esto hace que los saltos de línea (\n) se respeten */
+  word-break: break-word; /* Opcional: para romper palabras largas si fuera necesario */
 }
 
 .message-right {
@@ -62,6 +64,8 @@ h2 {
   margin: 5px 0;
   max-width: 70%;
   overflow-wrap: break-word;
+  white-space: pre-line; /* Esto hace que los saltos de línea (\n) se respeten */
+  word-break: break-word; /* Opcional: para romper palabras largas si fuera necesario */
 }
 
 @media (max-width: 768px) {

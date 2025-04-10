@@ -1,6 +1,5 @@
-
 <!-- Botón hamburguesa solo visible en móvil -->
-<button class="hamburger" (click)="toggleMobileMenu()" *ngIf="isMobile" aria-label="Abrir menú">
+<button class="hamburger" (click)="toggleMobileMenu()" *ngIf="isMobile" [attr.aria-label]="'Abrir menú'">
   ☰ Historial de conversaciones
 </button>
 
@@ -18,56 +17,35 @@
 
   <!-- Lista de conversaciones -->
   <ul class="conversation-list">
-    <li
-    *ngFor="let conv of conversations$ | async"
-    (click)="openConversation(conv.id)"
-    [class.selected]="conv.id === selectedChatId"
-    class="conversation-item"
-    [attr.aria-label]="'Seleccionar conversación ' + conv.title"
-  >
-
+    <li *ngFor="let conv of conversations$ | async"
+        (click)="openConversation(conv.id)"
+        [class.selected]="conv.id === selectedChatId"
+        class="conversation-item"
+        [attr.aria-label]="'Seleccionar conversación ' + conv.title">
       <button class="conversation-title">{{ conv.title }}</button>
-      <button
-      class="delete-btn"
-      (click)="deleteConversation(conv.id); $event.stopPropagation()"
-      [attr.aria-label]="'Borrar conversación ' + conv.title"
-    >
-      Borrar
-    </button>
-
+      <button class="delete-btn"
+              (click)="deleteConversation(conv.id); $event.stopPropagation()"
+              [attr.aria-label]="'Borrar conversación ' + conv.title">
+        Borrar
+      </button>
     </li>
   </ul>
 
   <!-- Campo de texto para crear una nueva conversación -->
   <div class="new-chat">
-    <input
-      id="nuevoChatInput"
-      placeholder="Nuevo Chat"
-      type="text"
-      [(ngModel)]="newChatTitle"
-      (keydown.enter)="createNewConversation()"
-      class="nuevo-chat-input"
-      aria-label="Título de nueva conversación"
-    />
-    <!-- Botón para crear una nueva conversación -->
-    <button
-      type="button"
-      (click)="createNewConversation()"
-      class="create-conversation-btn"
-      aria-label="Añadir nueva conversación"
-    >
+    <input id="nuevoChatInput" placeholder="Nuevo Chat" type="text"
+           [(ngModel)]="newChatTitle" (keydown.enter)="createNewConversation()"
+           class="nuevo-chat-input" [attr.aria-label]="'Título de nueva conversación'" />
+    <button type="button" (click)="createNewConversation()"
+            class="create-conversation-btn" [attr.aria-label]="'Añadir nueva conversación'">
       Añadir
     </button>
   </div>
 
   <!-- Botón para borrar todas las conversaciones -->
   <div class="clear-history-btn-container">
-    <button
-      type="button"
-      (click)="clearHistory()"
-      class="clear-history-btn"
-      aria-label="Eliminar todas las conversaciones"
-    >
+    <button type="button" (click)="clearHistory()"
+            class="clear-history-btn" [attr.aria-label]="'Eliminar todas las conversaciones'">
       Eliminar Todo
     </button>
   </div>

@@ -2,16 +2,15 @@
   <div class="chat-box">
     <h2>Bienvenido a LKS-ChatBot</h2>
     <div class="message-area" id="message-container" #chatContainer>
-      <p class="message-left">
+      <!-- Si no hay mensajes, muestra un mensaje de bienvenida -->
+      <p class="message-left" *ngIf="mensajes.length === 0">
         "¡Hola! Soy LKS-ChatBot, tu asistente inteligente. Estoy aquí para responder tus preguntas, ayudarte con lo que necesites y hacer tu experiencia más fácil. ¡Dime en qué puedo ayudarte hoy!"
       </p>
-      @for (item of mensajes(); track $index) {
-        @if (item.tipo=='usuario') {
-          <p class="message-right">{{item.texto}}</p>
-        } @else {
-          <p class="message-left">{{item.texto}}</p>
-        }
-      }
+      <!-- Recorre el array de mensajes y muestra cada mensaje según su tipo -->
+      <ng-container *ngFor="let item of mensajes; index as i">
+        <p *ngIf="item.tipo === 'usuario'" class="message-right">{{ item.texto }}</p>
+        <p *ngIf="item.tipo === 'bot'" class="message-left">{{ item.texto }}</p>
+      </ng-container>
     </div>
   </div>
 </div>

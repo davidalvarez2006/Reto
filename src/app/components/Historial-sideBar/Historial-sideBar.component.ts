@@ -1,13 +1,13 @@
 import { Component, Output, EventEmitter, OnInit, OnDestroy } from '@angular/core';
 import { ChatServiceHistorial, Conversation, Message } from '../../services/chatSave-service.service';
 import { Observable } from 'rxjs';
-import { FormsModule } from '@angular/forms'; // Necesario para ngModel
-import { CommonModule } from '@angular/common'; // Necesario para directivas como *ngIf y *ngFor
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-sidebar',
   standalone: true,
-  imports: [FormsModule, CommonModule], // <-- Aquí van los módulos necesarios
+  imports: [FormsModule, CommonModule],
   templateUrl: './Historial-sideBar.component.html',
   styleUrls: ['./Historial-sideBar.component.css'],
 })
@@ -18,7 +18,8 @@ export class SidebarComponent implements OnInit, OnDestroy {
   isMobileMenuOpen: boolean = false;
   isMobile: boolean = false;
 
-  @Output() selectedConversation = new EventEmitter<{ texto: string; tipo: 'usuario' | 'bot' }[]>();
+  // Se emite un objeto con el id y los mensajes de la conversación
+  @Output() selectedConversation = new EventEmitter<{ id: number, mensajes: { texto: string; tipo: 'usuario' | 'bot' }[] }>();
 
   constructor(private chatService: ChatServiceHistorial) {
     this.conversations$ = this.chatService.conversations$;
@@ -41,7 +42,8 @@ export class SidebarComponent implements OnInit, OnDestroy {
     this.selectedChatId = id;
     const conversation = this.chatService.getConversationById(id);
     if (conversation) {
-      this.selectedConversation.emit(conversation.messages);
+      // Emitir tanto el id como los mensajes
+      this.selectedConversation.emit({ id: conversation.id, mensajes: conversation.messages });
     } else {
       console.error('Conversation not found for id: ', id);
     }
@@ -52,18 +54,16 @@ export class SidebarComponent implements OnInit, OnDestroy {
     this.isMobileMenuOpen = !this.isMobileMenuOpen;
   }
 
-  // Método createNewConversation actualizado
   createNewConversation() {
     if (this.newChatTitle.trim() !== '') {
-      const maxLength = 15;  // Se recomienda hacerlo configurable si es posible
+      const maxLength = 15;
       const truncatedTitle = this.newChatTitle.length > maxLength
         ? this.newChatTitle.substring(0, maxLength) + '...'
         : this.newChatTitle;
-
       const newMessages: Message[] = [];
       this.chatService.addConversation(truncatedTitle, newMessages).subscribe({
         next: (savedConversation) => {
-          // Abrimos la conversación con el ID asignado por el backend
+          this.chatService.fetchConversations();
           this.openConversation(savedConversation.id);
           this.newChatTitle = '';
         },
@@ -78,10 +78,9 @@ export class SidebarComponent implements OnInit, OnDestroy {
 
   deleteConversation(id: number): void {
     this.chatService.deleteConversation(id);
-
     if (this.selectedChatId === id) {
       this.selectedChatId = null;
-      this.selectedConversation.emit([]);
+      this.selectedConversation.emit({ id: 0, mensajes: [] });
     }
   }
 
