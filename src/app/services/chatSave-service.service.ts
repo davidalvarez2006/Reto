@@ -27,22 +27,7 @@ export class ChatServiceHistorial {
   private apiUrl = environment.apiUrl; // URL base del API
 
   constructor(private http: HttpClient) {
-    this.loadConversations(); // Carga inicial de conversaciones
-  }
-
-  /**
-   * Método para cargar las conversaciones desde el backend
-   */
-  private loadConversations(): void {
-    this.http.get<Conversation[]>(this.apiUrl).subscribe({
-      next: (conversations) => {
-        this.conversations = conversations;
-        this.conversationsSubject.next(this.conversations); // Actualiza el estado de las conversaciones
-      },
-      error: (error) => {
-        console.error('Error al cargar las conversaciones', error);
-      }
-    });
+    this.fetchConversations(); // Carga inicial de conversaciones
   }
 
   /**
